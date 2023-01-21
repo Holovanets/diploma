@@ -5,19 +5,29 @@
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
+    "android-dev": "expo start -c --android",
     "ios": "expo start --ios",
+    "ios-dev": "expo start -c --ios",
     "web": "expo start --web"
   },
   "dependencies": {
+    "@react-navigation/native": "^6.0.13",
+    "@react-navigation/native-stack": "^6.9.1",
+    "@tanstack/react-query": "^4.22.0",
     "expo": "~47.0.12",
     "expo-status-bar": "~1.4.2",
+    "babel-plugin-root-import": "^6.6.0",
+    "prettier": "^2.7.1",
     "react": "18.1.0",
     "react-dom": "18.1.0",
     "react-native": "0.70.5",
-    "react-native-web": "~0.18.9"
+    "react-hook-form": "^7.42.0",
+    "react-native-web": "~0.18.9",
+    "react-native-svg": "12.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
+    "@trivago/prettier-plugin-sort-imports": "^3.4.0",
     "@types/react": "~18.0.14",
     "@types/react-native": "~0.70.6",
     "typescript": "^4.6.3"
