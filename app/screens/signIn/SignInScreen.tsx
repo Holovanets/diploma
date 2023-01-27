@@ -12,10 +12,11 @@ import {
 
 import { IAuthFormData } from '@/types/auth.interface'
 
-import LoginInput from '../../components/loginInput/LoginInput'
+import CustomInput from '../../components/customInput/CustomInput'
 import SignButton from '../../components/signButton/SignButton'
 import SignTextLink from '../../components/signTextLink/SignTextLink'
 import SocialButton from '../../components/socialButton/SocialButton'
+import { validEmail } from '../../regex/email.rgx'
 
 const googlePicture = require('../../../assets/images/logos/GOOGLE.png')
 const facebookPicture = require('../../../assets/images/logos/FACEBOOK.png')
@@ -25,6 +26,8 @@ const SignInScreen: FC = () => {
 		mode: 'onSubmit'
 	})
 	const onSubmit: SubmitHandler<IAuthFormData> = data => {
+		// sending Login data to back
+
 		// setUser({
 		// 	_id: '',
 		// 	...data
@@ -56,8 +59,32 @@ const SignInScreen: FC = () => {
 								maxHeight: 150
 							}}
 						/>
-						<LoginInput {...{ control }} />
-						<LoginInput {...{ control }} />
+						<CustomInput
+							{...{ control }}
+							name='email'
+							placeholder='Email'
+							secureTextEntry={false}
+							rules={{
+								required: "Обов'язково введіть email",
+								pattern: {
+									value: validEmail,
+									message: 'Email неправильний '
+								}
+							}}
+						/>
+						<CustomInput
+							{...{ control }}
+							name='password'
+							placeholder='Password'
+							secureTextEntry={true}
+							rules={{
+								required: "Обов'язково введіть пароль",
+								minLength: {
+									value: 8,
+									message: 'Пароль занадто короткий'
+								}
+							}}
+						/>
 						<Text className='text-white font-extrabold text-base self-center my-4'>
 							Або використати свої аккаунти
 						</Text>

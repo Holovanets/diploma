@@ -4,22 +4,21 @@ import { Control, Controller, useForm } from 'react-hook-form'
 import { Text, TextInput, View } from 'react-native'
 
 import { IAuthFormData } from '@/types/auth.interface'
+import { IInput } from '@/types/input.interface'
 
-import { validEmail } from '../../regex/email.rgx'
-
-const LoginInput: FC<{ control: Control<IAuthFormData> }> = ({ control }) => {
+const LoginInput: FC<IInput> = ({
+	control,
+	name,
+	placeholder,
+	secureTextEntry = false,
+	rules
+}) => {
 	return (
 		<View>
 			<Controller
 				{...{ control }}
-				name='email'
-				rules={{
-					required: "Обов'язково введіть email",
-					pattern: {
-						value: validEmail,
-						message: 'Email неправильний '
-					}
-				}}
+				name={name}
+				rules={rules}
 				render={({
 					field: { value, onBlur, onChange },
 					fieldState: { error }
@@ -38,8 +37,7 @@ const LoginInput: FC<{ control: Control<IAuthFormData> }> = ({ control }) => {
 							}}
 						>
 							<TextInput
-								placeholder='Email'
-								{...{ value, onBlur }}
+								{...{ value, onBlur, placeholder, secureTextEntry }}
 								onChangeText={onChange}
 								autoCapitalize='none'
 								className='text-white text-lg '
@@ -47,7 +45,11 @@ const LoginInput: FC<{ control: Control<IAuthFormData> }> = ({ control }) => {
 							/>
 						</View>
 
-						{error && <Text className='text-red-500'>{error.message}</Text>}
+						{error && (
+							<Text className='text-red-500'>
+								{error.message || 'Упс. Щось трапилось'}
+							</Text>
+						)}
 					</>
 				)}
 			/>
