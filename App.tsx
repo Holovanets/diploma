@@ -1,13 +1,23 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { StatusBar } from 'expo-status-bar'
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
 
-import SignInScreen from '@/screens/signIn/SignInScreen'
+import AuthProvider from '@/providers/AuthProvider'
+
+import Navigation from '@/navigation/Navigation'
+
+const queryClient = new QueryClient()
 
 export default function App() {
 	return (
-		<SafeAreaView className='flex-1'>
-			<SignInScreen />
+		<QueryClientProvider client={queryClient}>
+			<AuthProvider>
+				<SafeAreaProvider>
+					<Navigation />
+				</SafeAreaProvider>
+			</AuthProvider>
 			<StatusBar style='light' />
-		</SafeAreaView>
+		</QueryClientProvider>
 	)
 }

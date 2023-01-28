@@ -12,14 +12,24 @@ import {
 
 import { IAuthFormData } from '@/types/auth.interface'
 
-import CustomInput from '../../components/customInput/CustomInput'
-import SignButton from '../../components/signButton/SignButton'
-import SignTextLink from '../../components/signTextLink/SignTextLink'
-import SocialButton from '../../components/socialButton/SocialButton'
-import { validEmail } from '../../regex/email.rgx'
+// import { IAuthFormData } from '@/types/auth.interface'
+// import CustomInput from '../../../components/customInput/CustomInput'
+// import SignButton from '../../../components/signButton/SignButton'
+// import SignTextLink from '../../../components/signTextLink/SignTextLink'
+// import SocialButton from '../../../components/socialButton/SocialButton'
+// import { validEmail } from '../../../regex/email.rgx'
+import SignButton from '../../../components/customButton/CustomButton'
+import { validEmail } from '../../../regex/email.rgx'
 
-const googlePicture = require('../../../assets/images/logos/GOOGLE.png')
-const facebookPicture = require('../../../assets/images/logos/FACEBOOK.png')
+import CustomInput from './components/customInput/CustomInput'
+import SignTextLink from './components/signTextLink/SignTextLink'
+import SocialButton from './components/socialButton/SocialButton'
+
+const googlePicture = require('../../../../assets/images/logos/GOOGLE.png')
+const facebookPicture = require('../../../../assets/images/logos/FACEBOOK.png')
+
+// const googlePicture = require('../../../../assets/images/logos/GOOGLE.png')
+// const facebookPicture = require('../../../../assets/images/logos/FACEBOOK.png')
 
 const SignInScreen: FC = () => {
 	const { control, reset, handleSubmit } = useForm<IAuthFormData>({
@@ -39,7 +49,7 @@ const SignInScreen: FC = () => {
 
 	return (
 		<ImageBackground
-			source={require('../../../assets/images/bckg.png')}
+			source={require('../../../../assets/images/bckg.png')}
 			resizeMode='cover'
 			className='flex-1'
 		>
@@ -50,7 +60,7 @@ const SignInScreen: FC = () => {
 				<TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
 					<View className='items-center content-center justify-center  '>
 						<Image
-							source={require('../../../assets/images/logo.png')}
+							source={require('../../../../assets/images/logo.png')}
 							resizeMode='contain'
 							className='self-center mb-5'
 							style={{

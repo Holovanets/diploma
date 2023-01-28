@@ -4,7 +4,7 @@ import { Pressable, PressableProps, Text, View } from 'react-native'
 
 interface IButton extends PressableProps {}
 
-const SignButton: FC<PropsWithChildren<IButton>> = ({
+const CustomButton: FC<PropsWithChildren<IButton>> = ({
 	children,
 	className,
 	...rest
@@ -22,4 +22,4 @@ const SignButton: FC<PropsWithChildren<IButton>> = ({
 	)
 }
 
-export default SignButton
+export default CustomButton
