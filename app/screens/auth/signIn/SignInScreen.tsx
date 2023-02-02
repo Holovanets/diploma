@@ -11,7 +11,8 @@ import {
 	View,
 	useWindowDimensions
 } from 'react-native'
-// sap
+
+// sap guy
 import { IAuthFormData } from '@/types/auth.interface'
 
 import SignButton from '../../../components/customButton/CustomButton'
