@@ -1,3 +1,5 @@
+import { useNavigation } from '@react-navigation/native'
+import { StackNavigationProp } from '@react-navigation/stack'
 import { FC, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import {
@@ -12,14 +14,9 @@ import {
 
 import { IAuthFormData } from '@/types/auth.interface'
 
-// import { IAuthFormData } from '@/types/auth.interface'
-// import CustomInput from '../../../components/customInput/CustomInput'
-// import SignButton from '../../../components/signButton/SignButton'
-// import SignTextLink from '../../../components/signTextLink/SignTextLink'
-// import SocialButton from '../../../components/socialButton/SocialButton'
-// import { validEmail } from '../../../regex/email.rgx'
 import SignButton from '../../../components/customButton/CustomButton'
 import { validEmail } from '../../../regex/email.rgx'
+import { TypeRootStackParamList } from '../../../types/navigation.types'
 
 import CustomInput from './components/customInput/CustomInput'
 import SignTextLink from './components/signTextLink/SignTextLink'
@@ -28,10 +25,11 @@ import SocialButton from './components/socialButton/SocialButton'
 const googlePicture = require('../../../../assets/images/logos/GOOGLE.png')
 const facebookPicture = require('../../../../assets/images/logos/FACEBOOK.png')
 
-// const googlePicture = require('../../../../assets/images/logos/GOOGLE.png')
-// const facebookPicture = require('../../../../assets/images/logos/FACEBOOK.png')
+type signInScreenProp = StackNavigationProp<TypeRootStackParamList>
 
 const SignInScreen: FC = () => {
+	const navigation = useNavigation<signInScreenProp>()
+
 	const { control, reset, handleSubmit } = useForm<IAuthFormData>({
 		mode: 'onSubmit'
 	})
@@ -42,6 +40,8 @@ const SignInScreen: FC = () => {
 		// 	_id: '',
 		// 	...data
 		// })
+		navigation.navigate('HomeScreen')
+
 		reset()
 	}
 

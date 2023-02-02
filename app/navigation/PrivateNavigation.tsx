@@ -8,7 +8,12 @@ const Stack = createStackNavigator()
 
 const PrivateNavigation: FC = () => {
 	return (
-		<Stack.Navigator>
+		<Stack.Navigator
+			screenOptions={{
+				headerShown: false
+			}}
+			initialRouteName='SignInScreen'
+		>
 			{routes.map(route => (
 				<Stack.Screen key={route.name} {...route} />
 			))}
