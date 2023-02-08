@@ -1,6 +1,7 @@
 import { ComponentType } from 'react'
 
 export type TypeRootStackParamList = {
+	WelcomeScreen: undefined
 	SignInScreen: undefined
 	RegisterScreen: undefined
 	HomeScreen: undefined

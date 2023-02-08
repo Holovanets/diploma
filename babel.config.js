@@ -4,10 +4,22 @@ module.exports = function (api) {
 		presets: ['babel-preset-expo'],
 		plugins: [
 			[
-				'babel-plugin-root-import',
+				'module-resolver',
 				{
-					rootPathSuffix: 'app/',
-					rootPathPrefix: '@/'
+					root: ['.'],
+					alias: {
+						'*': './app/',
+						'@/assets': './app/assets',
+						'@/components': './app/components',
+						'@/constants': './app/constants',
+						'@/hooks': './app/hooks',
+						'@/modules': './app/modules',
+						'@/navigation': './app/navigation',
+						'@/providers': './app/providers',
+						'@/regex': './app/regex',
+						'@/screens': './app/screens',
+						'@/types': './app/types'
+					}
 				}
 			],
 			['nativewind/babel']

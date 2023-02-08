@@ -12,19 +12,15 @@ import {
 	useWindowDimensions
 } from 'react-native'
 
-// sap guy
-import { IAuthFormData } from '@/types/auth.interface'
+import SignButton from '@/components/customButton/CustomButton'
 
-import SignButton from '../../../components/customButton/CustomButton'
-import { validEmail } from '../../../regex/email.rgx'
-import { TypeRootStackParamList } from '../../../types/navigation.types'
+import { validEmail } from '@/regex/email.rgx'
 
 import CustomInput from './components/customInput/CustomInput'
 import SignTextLink from './components/signTextLink/SignTextLink'
 import SocialButton from './components/socialButton/SocialButton'
-
-const googlePicture = require('../../../../assets/images/logos/GOOGLE.png')
-const facebookPicture = require('../../../../assets/images/logos/FACEBOOK.png')
+import { Images } from '@/constants'
+import { IAuthFormData, TypeRootStackParamList } from '@/types'
 
 type signInScreenProp = StackNavigationProp<TypeRootStackParamList>
 
@@ -101,8 +97,8 @@ const SignInScreen: FC = () => {
 						</Text>
 
 						<View className='flex-row w-80 overflow-hidden space-x-2 justify-between'>
-							<SocialButton title='Google' img={googlePicture} />
-							<SocialButton title='Facebook' img={facebookPicture} />
+							<SocialButton title='Google' img={Images.GOOGLE_LOGO} />
+							<SocialButton title='Facebook' img={Images.FACEBOOK_LOGO} />
 						</View>
 						<SignTextLink>Забув пароль :(</SignTextLink>
 						<View className='my-5 justify-center '>

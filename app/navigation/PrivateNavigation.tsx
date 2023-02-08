@@ -12,7 +12,6 @@ const PrivateNavigation: FC = () => {
 			screenOptions={{
 				headerShown: false
 			}}
-			initialRouteName='SignInScreen'
 		>
 			{routes.map(route => (
 				<Stack.Screen key={route.name} {...route} />

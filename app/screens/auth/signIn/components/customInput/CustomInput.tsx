@@ -3,8 +3,7 @@ import { FC } from 'react'
 import { Control, Controller, useForm } from 'react-hook-form'
 import { Text, TextInput, View } from 'react-native'
 
-import { IAuthFormData } from '@/types/auth.interface'
-import { IInput } from '@/types/input.interface'
+import { IAuthFormData, IInput } from '@/types'
 
 const LoginInput: FC<IInput> = ({
 	control,

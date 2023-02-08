@@ -4,7 +4,27 @@
 		"strict": true,
 		"baseUrl": ".",
 		"paths": {
-			"@/*": ["./app/*"]
+			// "@/*": ["./app/*"],
+			"@/assets": ["./app/assets"],
+			"@/assets/*": ["./app/assets/*"],
+			"@/components": ["./app/components"],
+			"@/components/*": ["./app/components/*"],
+			"@/constants": ["./app/constants"],
+			"@/constants/*": ["./app/constants/*"],
+			"@/hooks": ["./app/hooks"],
+			"@/hooks/*": ["./app/hooks/*"],
+			"@/modules": ["./app/modules"],
+			"@/modules/*": ["./app/modules/*"],
+			"@/navigation": ["./app/navigation"],
+			"@/navigation/*": ["./app/navigation/*"],
+			"@/providers": ["./app/providers"],
+			"@/providers/*": ["./app/providers/*"],
+			"@/regex": ["./app/regex"],
+			"@/regex/*": ["./app/regex/*"],
+			"@/screens": ["./app/screens"],
+			"@/screens/*": ["./app/screens/*"],
+			"@/types": ["./app/types"],
+			"@/types/*": ["./app/types/*"]
 		}
 	}
 }
