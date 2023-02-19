@@ -24,7 +24,9 @@
 			"@/screens": ["./app/screens"],
 			"@/screens/*": ["./app/screens/*"],
 			"@/types": ["./app/types"],
-			"@/types/*": ["./app/types/*"]
+			"@/types/*": ["./app/types/*"],
+			"@/utils/": ["./app/utils/"],
+			"@/utils/*": ["./app/utils/*"]
 		}
 	}
 }

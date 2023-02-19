@@ -18,7 +18,8 @@ module.exports = function (api) {
 						'@/providers': './app/providers',
 						'@/regex': './app/regex',
 						'@/screens': './app/screens',
-						'@/types': './app/types'
+						'@/types': './app/types',
+						'@/utils': './app/utils'
 					}
 				}
 			],

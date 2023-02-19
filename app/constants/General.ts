@@ -1,8 +1,8 @@
-const WELCOME_CONTENT = [
+const WELCOME_CONTENT: IWelcomeContent[] = [
 	{
 		image: 'WELCOME_PIC_1',
 		title: 'Find Your Favorite Place',
-		content: ''
+		content: 'lorem ipsum dolorem'
 	},
 	{
 		image: 'WELCOME_PIC_2',

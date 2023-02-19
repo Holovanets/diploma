@@ -5,7 +5,7 @@ import { Text, TextInput, View } from 'react-native'
 
 import { IInput } from '@/types'
 
-const LoginInput: FC<IInput> = ({
+const CustomInput: FC<IInput> = ({
 	control,
 	name,
 	placeholder,
@@ -56,4 +56,4 @@ const LoginInput: FC<IInput> = ({
 	)
 }
 
-export default LoginInput
+export default CustomInput
