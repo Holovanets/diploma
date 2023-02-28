@@ -1,5 +1,3 @@
-import { useNavigation } from '@react-navigation/native'
-import { StackNavigationProp } from '@react-navigation/stack'
 import { FC, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import {
@@ -12,33 +10,18 @@ import {
 	useWindowDimensions
 } from 'react-native'
 
-import SignButton from '@/components/customButton/CustomButton'
-
-import { validEmail } from '@/regex/email.rgx'
-
-import CustomInput from './components/customInput/CustomInput'
-import SignTextLink from './components/signTextLink/SignTextLink'
-import SocialButton from './components/socialButton/SocialButton'
+import { LoginInput, SignTextLink, SocialButton } from './components'
+import { CustomButton } from '@/components'
 import { Images } from '@/constants'
-import { IAuthFormData, TypeRootStackParamList } from '@/types'
+import { validEmail } from '@/regex'
+import { IAuthFormData, ScreenProps } from '@/types'
 
-type signInScreenProp = StackNavigationProp<TypeRootStackParamList>
-
-const SignInScreen: FC = () => {
-	const navigation = useNavigation<signInScreenProp>()
-
+const SignInScreen: FC<ScreenProps> = ({ navigation }) => {
 	const { control, reset, handleSubmit } = useForm<IAuthFormData>({
 		mode: 'onSubmit'
 	})
 	const onSubmit: SubmitHandler<IAuthFormData> = data => {
-		// sending Login data to back
-
-		// setUser({
-		// 	_id: '',
-		// 	...data
-		// })
 		navigation.navigate('HomeScreen')
-
 		reset()
 	}
 
@@ -66,7 +49,7 @@ const SignInScreen: FC = () => {
 								maxHeight: 150
 							}}
 						/>
-						<CustomInput
+						<LoginInput
 							{...{ control }}
 							name='email'
 							placeholder='Email'
@@ -79,7 +62,7 @@ const SignInScreen: FC = () => {
 								}
 							}}
 						/>
-						<CustomInput
+						<LoginInput
 							{...{ control }}
 							name='password'
 							placeholder='Password'
@@ -100,10 +83,27 @@ const SignInScreen: FC = () => {
 							<SocialButton title='Google' img={Images.GOOGLE_LOGO} />
 							<SocialButton title='Facebook' img={Images.FACEBOOK_LOGO} />
 						</View>
-						<SignTextLink>Забув пароль :(</SignTextLink>
+						<SignTextLink
+							callback={() => {
+								navigation.navigate('ForgotPasswordScreen')
+							}}
+						>
+							Забув пароль :(
+						</SignTextLink>
 						<View className='my-5 justify-center '>
-							<SignButton onPress={handleSubmit(onSubmit)}> Увійти </SignButton>
-							<SignTextLink>Я досі не маю акаунту</SignTextLink>
+							<CustomButton
+								onPress={handleSubmit(onSubmit)}
+								customClassName='my-4'
+							>
+								Увійти
+							</CustomButton>
+							<SignTextLink
+								callback={() => {
+									navigation.navigate('RegisterScreen')
+								}}
+							>
+								Я досі не маю акаунту
+							</SignTextLink>
 						</View>
 					</View>
 				</TouchableWithoutFeedback>

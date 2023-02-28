@@ -1,7 +1,7 @@
 import cn from 'clsx'
 import { FC } from 'react'
 import { Control, Controller, useForm } from 'react-hook-form'
-import { Text, TextInput, View } from 'react-native'
+import { Keyboard, Text, TextInput, View } from 'react-native'
 
 import { IInput } from '@/types'
 
@@ -41,6 +41,7 @@ const CustomInput: FC<IInput> = ({
 								autoCapitalize='none'
 								className='text-white text-lg '
 								placeholderTextColor='#FFF'
+								onBlur={Keyboard.dismiss}
 							/>
 						</View>
 

@@ -1,4 +1,5 @@
 import {
+	ForgotPasswordScreen,
 	HomeScreen,
 	PlaceScreen,
 	RegisterScreen,
@@ -8,13 +9,17 @@ import {
 import { IRoute } from '@/types'
 
 export const routes: IRoute[] = [
-	{
-		name: 'WelcomeScreen',
-		component: WelcomeScreen
-	},
+	// {
+	// 	name: 'WelcomeScreen',
+	// 	component: WelcomeScreen
+	// },
 	{
 		name: 'SignInScreen',
 		component: SignInScreen
+	},
+	{
+		name: 'ForgotPasswordScreen',
+		component: ForgotPasswordScreen
 	},
 	{
 		name: 'RegisterScreen',

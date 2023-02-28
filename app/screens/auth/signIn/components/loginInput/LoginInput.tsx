@@ -28,7 +28,7 @@ const LoginInput: FC<IInput> = ({
       */}
 						<View
 							className={cn(
-								`rounded-3xl border py-5 px-8 my-2 w-80`,
+								`rounded-2xl border py-5 px-8 my-2 w-80`,
 								!!error ? 'border-red-500' : 'border-transparent'
 							)}
 							style={{

@@ -8,7 +8,7 @@ interface ISocialButton {
 
 const SocialButton: FC<ISocialButton> = ({ title, img }) => {
 	return (
-		<View className='my-2 rounded-3xl overflow-hidden'>
+		<View className='my-2 rounded-2xl overflow-hidden'>
 			<Pressable
 				android_ripple={{ color: 'rgba(255,255,255, 0.3)' }}
 				className=' py-5 px-4 flex-row w-[150px] justify-center'

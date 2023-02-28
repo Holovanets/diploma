@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { Text, View } from 'react-native'
 
-const ForgotPassword: FC = () => {
+const ForgotPasswordScreen: FC = () => {
 	return (
 		<View>
 			<Text>ForgotPassword</Text>
@@ -9,4 +9,4 @@ const ForgotPassword: FC = () => {
 	)
 }
 
-export default ForgotPassword
+export default ForgotPasswordScreen

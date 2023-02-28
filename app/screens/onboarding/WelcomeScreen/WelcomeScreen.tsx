@@ -1,12 +1,15 @@
-import { FC, LegacyRef, useRef, useState } from 'react'
-import { Animated, FlatList, StatusBar, Text, View } from 'react-native'
+import { NavigationProp } from '@react-navigation/native'
+import { FC, useRef, useState } from 'react'
+import { Animated, FlatList, View } from 'react-native'
 
 import { NextButton, Paginator, WelcomeCard } from './components'
-import { Separator } from '@/components'
 import { General } from '@/constants'
-import Display from '@/utils/Display'
 
-const WelcomeScreen: FC = () => {
+interface WelcomeScreenProps {
+	navigation: NavigationProp<any, any>
+}
+
+const WelcomeScreen: FC<WelcomeScreenProps> = ({ navigation }) => {
 	const [currentIndex, setCurrentIndex] = useState(0)
 
 	const scrollX = useRef(new Animated.Value(0)).current
@@ -54,7 +57,16 @@ const WelcomeScreen: FC = () => {
 				/>
 			</View>
 			<Paginator data={General.WELCOME_CONTENT} {...{ scrollX }} />
-			<NextButton scrollTo={scrollTo} />
+			{currentIndex === General.WELCOME_CONTENT.length - 1 ? (
+				<NextButton
+					callback={() => {
+						navigation.navigate('SignInScreen')
+					}}
+					title='Уперед'
+				/>
+			) : (
+				<NextButton callback={scrollTo} title='Далі' />
+			)}
 		</View>
 	)
 }

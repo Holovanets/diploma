@@ -1,9 +1,16 @@
 import { FC, PropsWithChildren } from 'react'
 import { Pressable, Text, View } from 'react-native'
 
-const SignTextLink: FC<PropsWithChildren> = ({ children }) => {
+interface SignTextLinkProps {
+	callback: () => void
+}
+
+const SignTextLink: FC<PropsWithChildren<SignTextLinkProps>> = ({
+	children,
+	callback
+}) => {
 	return (
-		<Pressable className=' self-center'>
+		<Pressable className=' self-center' onPress={callback}>
 			<Text
 				className='text-accentRed text-base '
 				style={{

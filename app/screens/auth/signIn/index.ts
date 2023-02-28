@@ -1,1 +1,3 @@
-export { default } from './SignInScreen'
+import SignInScreen from './SignInScreen'
+
+export { SignInScreen }
