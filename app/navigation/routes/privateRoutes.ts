@@ -22,12 +22,12 @@ export const routes: IRoute[] = [
 		component: ForgotPasswordScreen
 	},
 	{
-		name: 'RegisterScreen',
-		component: RegisterScreen
-	},
-	{
 		name: 'HomeScreen',
 		component: HomeScreen
+	},
+	{
+		name: 'RegisterScreen',
+		component: RegisterScreen
 	},
 	{
 		name: 'PlaceScreen',

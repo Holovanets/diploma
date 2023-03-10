@@ -1,7 +1,5 @@
 import { Control } from 'react-hook-form'
 
-import { IAuthFormData } from './auth.interface'
-
 export interface IInput {
 	//FIXIT don`t use any!!!
 	control: Control | any

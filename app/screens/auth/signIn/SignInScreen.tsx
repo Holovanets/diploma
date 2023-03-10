@@ -4,17 +4,21 @@ import {
 	Image,
 	ImageBackground,
 	Keyboard,
+	Platform,
 	Text,
 	TouchableWithoutFeedback,
 	View,
 	useWindowDimensions
 } from 'react-native'
+import { KeyboardAvoidingView } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
-import { LoginInput, SignTextLink, SocialButton } from './components'
-import { CustomButton } from '@/components'
+import { Fields, SignTextLink, SocialButton } from './components'
+import { CustomButton, CustomInput } from '@/components'
 import { Images } from '@/constants'
 import { validEmail } from '@/regex'
 import { IAuthFormData, ScreenProps } from '@/types'
+import Display from '@/utils/Display'
 
 const SignInScreen: FC<ScreenProps> = ({ navigation }) => {
 	const { control, reset, handleSubmit } = useForm<IAuthFormData>({
@@ -33,12 +37,9 @@ const SignInScreen: FC<ScreenProps> = ({ navigation }) => {
 			resizeMode='cover'
 			className='flex-1'
 		>
-			<View className=' justify-center items-center flex-1 '>
-				{/*FIX IT
-					Don`t use TouchableWithoutFeedback, use vanilla pressable etc. 
-				*/}
-				<TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-					<View className='items-center content-center justify-center  '>
+			<TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+				<SafeAreaView className=' justify-center items-center flex-1 py-7'>
+					<View className='items-center content-center justify-center flex-1 '>
 						<Image
 							source={require('../../../../assets/images/logo.png')}
 							resizeMode='contain'
@@ -49,32 +50,13 @@ const SignInScreen: FC<ScreenProps> = ({ navigation }) => {
 								maxHeight: 150
 							}}
 						/>
-						<LoginInput
-							{...{ control }}
-							name='email'
-							placeholder='Email'
-							secureTextEntry={false}
-							rules={{
-								required: "Обов'язково введіть email",
-								pattern: {
-									value: validEmail,
-									message: 'Email неправильний '
-								}
-							}}
-						/>
-						<LoginInput
-							{...{ control }}
-							name='password'
-							placeholder='Password'
-							secureTextEntry={true}
-							rules={{
-								required: "Обов'язково введіть пароль",
-								minLength: {
-									value: 8,
-									message: 'Пароль занадто короткий'
-								}
-							}}
-						/>
+
+						<KeyboardAvoidingView
+							behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+						>
+							<Fields {...{ control, handleSubmit, onSubmit }} />
+						</KeyboardAvoidingView>
+
 						<Text className='text-white font-extrabold text-base self-center my-4'>
 							Або використати свої аккаунти
 						</Text>
@@ -83,20 +65,7 @@ const SignInScreen: FC<ScreenProps> = ({ navigation }) => {
 							<SocialButton title='Google' img={Images.GOOGLE_LOGO} />
 							<SocialButton title='Facebook' img={Images.FACEBOOK_LOGO} />
 						</View>
-						<SignTextLink
-							callback={() => {
-								navigation.navigate('ForgotPasswordScreen')
-							}}
-						>
-							Забув пароль :(
-						</SignTextLink>
-						<View className='my-5 justify-center '>
-							<CustomButton
-								onPress={handleSubmit(onSubmit)}
-								customClassName='my-4'
-							>
-								Увійти
-							</CustomButton>
+						<View className='flex-row justify-between w-80 mt-5'>
 							<SignTextLink
 								callback={() => {
 									navigation.navigate('RegisterScreen')
@@ -104,10 +73,29 @@ const SignInScreen: FC<ScreenProps> = ({ navigation }) => {
 							>
 								Я досі не маю акаунту
 							</SignTextLink>
+							<SignTextLink
+								callback={() => {
+									navigation.navigate('ForgotPasswordScreen')
+								}}
+							>
+								Забув пароль :(
+							</SignTextLink>
 						</View>
 					</View>
-				</TouchableWithoutFeedback>
-			</View>
+					<KeyboardAvoidingView
+						behavior={Platform.OS === 'ios' ? 'padding' : 'position'}
+					>
+						<View className='flex-end justify-center'>
+							<CustomButton
+								onPress={handleSubmit(onSubmit)}
+								customClassName='my-4'
+							>
+								Увійти
+							</CustomButton>
+						</View>
+					</KeyboardAvoidingView>
+				</SafeAreaView>
+			</TouchableWithoutFeedback>
 		</ImageBackground>
 	)
 }

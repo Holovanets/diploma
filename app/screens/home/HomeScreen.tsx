@@ -2,8 +2,9 @@ import { useNavigation } from '@react-navigation/native'
 import { FC } from 'react'
 import { Pressable, Text, View } from 'react-native'
 
-const HomeScreen: FC = () => {
-	const navigation = useNavigation()
+import { ScreenProps } from '@/types'
+
+const HomeScreen: FC<ScreenProps> = ({ navigation }) => {
 	return (
 		<View>
 			<Text>HomeScreen</Text>

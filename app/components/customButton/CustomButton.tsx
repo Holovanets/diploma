@@ -15,7 +15,7 @@ const CustomButton: FC<PropsWithChildren<IButton>> = ({
 	return (
 		<View
 			className={cn(
-				'rounded-2xl justify-center  overflow-hidden bg-primary',
+				'rounded-2xl justify-center overflow-hidden bg-primary',
 				customClassName
 			)}
 		>
@@ -24,7 +24,9 @@ const CustomButton: FC<PropsWithChildren<IButton>> = ({
 				className={cn(' pt-4 pb-5 bg-accentRed px-12', className)}
 				{...rest}
 			>
-				<Text className='font-black text-white text-2xl'>{children}</Text>
+				<Text className='font-black text-white text-2xl text-center'>
+					{children}
+				</Text>
 			</Pressable>
 		</View>
 	)

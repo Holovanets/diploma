@@ -1,5 +1,5 @@
-import { LoginInput } from './loginInput'
+import { Fields } from './Fields'
 import { SignTextLink } from './signTextLink'
 import { SocialButton } from './socialButton'
 
-export { LoginInput, SignTextLink, SocialButton }
+export { SignTextLink, SocialButton, Fields }
