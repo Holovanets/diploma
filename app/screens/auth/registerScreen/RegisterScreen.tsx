@@ -5,13 +5,15 @@ import {
 	Keyboard,
 	KeyboardAvoidingView,
 	Platform,
+	Pressable,
+	Text,
 	TouchableWithoutFeedback,
 	View
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 import { Fields } from './components'
-import { CustomButton, GoBackButton } from '@/components'
+import { CustomButton, CustomCheckBox, GoBackButton } from '@/components'
 import { IBaseFields, ScreenProps } from '@/types'
 
 const RegisterScreen: FC<ScreenProps> = ({ navigation }) => {
@@ -21,6 +23,8 @@ const RegisterScreen: FC<ScreenProps> = ({ navigation }) => {
 
 	const [isFocused, setIsFocused] = useState(false)
 
+	const [isAutoExit, setIsAutoExit] = useState(false)
+
 	const onSubmit: SubmitHandler<IBaseFields> = data => {
 		navigation.navigate('HomeScreen')
 		console.log('Username is: ', data.username)
@@ -28,6 +32,9 @@ const RegisterScreen: FC<ScreenProps> = ({ navigation }) => {
 		console.log('Password is: ', data.password)
 
 		reset()
+	}
+	const handleChecked = () => {
+		setIsAutoExit(!isAutoExit)
 	}
 
 	return (
@@ -37,7 +44,7 @@ const RegisterScreen: FC<ScreenProps> = ({ navigation }) => {
 			className='flex-1'
 		>
 			<TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-				<SafeAreaView className='justify-center items-center content-center flex-1 px-6 py-7'>
+				<SafeAreaView className='justify-center items-center content-center flex-1 px-6 pt-7'>
 					<View className='flex-start justify-left w-full'>
 						<GoBackButton callback={navigation.goBack} />
 					</View>
@@ -55,11 +62,22 @@ const RegisterScreen: FC<ScreenProps> = ({ navigation }) => {
 							// 	console.log(isFocused)
 							// }}
 						/>
+						<Pressable
+							onPress={() => {
+								handleChecked()
+							}}
+							className='mt-5 flex-row items-center'
+						>
+							<CustomCheckBox checked={isAutoExit} />
+							<Text className='ml-6 text-base text-white/60'>
+								Не виходити з мого аккаунту
+							</Text>
+						</Pressable>
 					</KeyboardAvoidingView>
 					<KeyboardAvoidingView
-						style={{ marginBottom: isFocused ? 20 : 20 }}
+						// style={{ marginBottom: isFocused ? 10 : 10 }}
 						behavior={Platform.OS === 'ios' ? 'padding' : 'position'}
-						className='flex-end justify-center '
+						className='flex-end justify-center mb-7'
 					>
 						<CustomButton
 							onPress={handleSubmit(onSubmit)}
