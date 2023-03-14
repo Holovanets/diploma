@@ -1,7 +1,9 @@
 import { FC } from 'react'
 import { Text, View } from 'react-native'
 
-const ForgotPasswordScreen: FC = () => {
+import { ScreenProps } from '@/types'
+
+const ForgotPasswordScreen: FC<ScreenProps> = ({ navigation }) => {
 	return (
 		<View>
 			<Text>ForgotPassword</Text>

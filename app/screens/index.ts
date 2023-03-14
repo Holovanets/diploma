@@ -1,4 +1,9 @@
-import { ForgotPasswordScreen, RegisterScreen, SignInScreen } from './auth'
+import {
+	ForgotPasswordScreen,
+	RegisterScreen,
+	SignInScreen,
+	StepTwoRegScreen
+} from './auth'
 import HomeScreen from './home/HomeScreen'
 import { WelcomeScreen } from './onboarding/'
 import PlaceScreen from './place/PlaceScreen'
@@ -9,5 +14,6 @@ export {
 	HomeScreen,
 	ForgotPasswordScreen,
 	RegisterScreen,
+	StepTwoRegScreen,
 	SignInScreen
 }

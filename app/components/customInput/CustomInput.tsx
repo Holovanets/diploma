@@ -69,15 +69,17 @@ const CustomInput: FC<CustomInputProps> = ({
 					<>
 						<View
 							className={cn(
-								`rounded-3xl items-center border py-5 px-8 my-2 w-80 flex-row bg-white/10 z-0`,
+								`rounded-3xl items-center py-5 px-8 my-2 w-80 flex-row bg-white/10 z-0`,
 								!!error ? 'border-red-500' : 'border-transparent',
 								secure ? 'py-3' : 'py-5',
 								secure && !!error ? 'ml-2' : ''
 							)}
 						>
-							<View className='mr-4 mt-0.5 justify-center'>
-								<Octicons name={iconName} size={24} color='white' />
-							</View>
+							{iconName && (
+								<View className='mr-4 mt-0.5 justify-center'>
+									<Octicons name={iconName} size={24} color='white' />
+								</View>
+							)}
 							<TextInput
 								{...{
 									value,

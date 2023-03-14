@@ -1,3 +1,4 @@
+import { CheckBox } from './checkBox'
 import { Fields } from './fields'
 
-export { Fields }
+export { Fields, CheckBox }

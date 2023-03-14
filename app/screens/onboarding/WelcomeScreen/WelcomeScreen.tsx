@@ -1,15 +1,12 @@
 import { NavigationProp } from '@react-navigation/native'
 import { FC, useRef, useState } from 'react'
-import { Animated, FlatList, View } from 'react-native'
+import { Animated, FlatList, ImageBackground, View } from 'react-native'
 
 import { NextButton, Paginator, WelcomeCard } from './components'
 import { General } from '@/constants'
+import { ScreenProps } from '@/types'
 
-interface WelcomeScreenProps {
-	navigation: NavigationProp<any, any>
-}
-
-const WelcomeScreen: FC<WelcomeScreenProps> = ({ navigation }) => {
+const WelcomeScreen: FC<ScreenProps> = ({ navigation }) => {
 	const [currentIndex, setCurrentIndex] = useState(0)
 
 	const scrollX = useRef(new Animated.Value(0)).current
@@ -30,44 +27,50 @@ const WelcomeScreen: FC<WelcomeScreenProps> = ({ navigation }) => {
 	}
 
 	return (
-		<View className='flex-1 justify-center items-center bg-black pt-20'>
-			<View
-				style={{
-					flex: 3
-				}}
-			>
-				<FlatList
-					data={General.WELCOME_CONTENT}
-					keyExtractor={item => item.title}
-					horizontal
-					showsHorizontalScrollIndicator={false}
-					pagingEnabled
-					overScrollMode='never'
-					renderItem={({ item }) => <WelcomeCard {...item} />}
-					onScroll={Animated.event(
-						[{ nativeEvent: { contentOffset: { x: scrollX } } }],
-						{
-							useNativeDriver: false
-						}
-					)}
-					scrollEventThrottle={32}
-					onViewableItemsChanged={viewableItemsChanged}
-					viewabilityConfig={viewConfig}
-					ref={slidesRef}
-				/>
-			</View>
-			<Paginator data={General.WELCOME_CONTENT} {...{ scrollX }} />
-			{currentIndex === General.WELCOME_CONTENT.length - 1 ? (
-				<NextButton
-					callback={() => {
-						navigation.navigate('SignInScreen')
+		<ImageBackground
+			source={require('../../../../assets/images/bckg.png')}
+			resizeMode='cover'
+			className='flex-1'
+		>
+			<View className='flex-1 justify-center items-center bg-black pt-20'>
+				<View
+					style={{
+						flex: 3
 					}}
-					title='Уперед'
-				/>
-			) : (
-				<NextButton callback={scrollTo} title='Далі' />
-			)}
-		</View>
+				>
+					<FlatList
+						data={General.WELCOME_CONTENT}
+						keyExtractor={item => item.title}
+						horizontal
+						showsHorizontalScrollIndicator={false}
+						pagingEnabled
+						overScrollMode='never'
+						renderItem={({ item }) => <WelcomeCard {...item} />}
+						onScroll={Animated.event(
+							[{ nativeEvent: { contentOffset: { x: scrollX } } }],
+							{
+								useNativeDriver: false
+							}
+						)}
+						scrollEventThrottle={32}
+						onViewableItemsChanged={viewableItemsChanged}
+						viewabilityConfig={viewConfig}
+						ref={slidesRef}
+					/>
+				</View>
+				<Paginator data={General.WELCOME_CONTENT} {...{ scrollX }} />
+				{currentIndex === General.WELCOME_CONTENT.length - 1 ? (
+					<NextButton
+						callback={() => {
+							navigation.navigate('SignInScreen')
+						}}
+						title='Уперед'
+					/>
+				) : (
+					<NextButton callback={scrollTo} title='Далі' />
+				)}
+			</View>
+		</ImageBackground>
 	)
 }
 

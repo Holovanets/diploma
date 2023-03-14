@@ -3,6 +3,7 @@ import { Text, View } from 'react-native'
 import { useDerivedValue, withTiming } from 'react-native-reanimated'
 import Svg, { Path } from 'react-native-svg'
 
+import AnimatedCheckMarkPath from './AnimatedCheckMarkPath'
 import AnimatedColor from './AnimatedColor'
 
 interface CustomCheckBoxProps {
@@ -16,21 +17,9 @@ const CustomCheckBox: FC<CustomCheckBoxProps> = memo(props => {
 	})
 
 	return (
-		<Svg
-			className='w-7 h-7'
-			viewBox='0 0 49 49'
-			fill='none'
-			// @ts-ignore
-			xmlns='http://www.w3.org/2000/svg'
-		>
+		<Svg className='h-6 w-6' viewBox='0 0 49 49'>
 			<AnimatedColor progress={progress} />
-			<Path
-				d='M13 24.2402L21.6667 32.8333L37.5 17'
-				stroke='white'
-				strokeWidth='5'
-				strokeLinecap='round'
-				strokeLinejoin='round'
-			/>
+			<AnimatedCheckMarkPath progress={progress} />
 		</Svg>
 	)
 })

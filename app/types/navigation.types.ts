@@ -1,14 +1,17 @@
 import { ComponentType } from 'react'
 
+import { ScreenProps } from './screenProps.interface'
+
 export type TypeRootStackParamList = {
 	WelcomeScreen: undefined
 	SignInScreen: undefined
-	RegisterScreen: undefined
 	HomeScreen: undefined
 	PlaceScreen: undefined
+	RegisterScreen: undefined
+	StepTwoRegScreen: undefined
 }
 
 export interface IRoute {
 	name: keyof TypeRootStackParamList
-	component: ComponentType
+	component: ComponentType<ScreenProps>
 }

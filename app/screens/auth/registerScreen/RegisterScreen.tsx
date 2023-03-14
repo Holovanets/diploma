@@ -5,15 +5,13 @@ import {
 	Keyboard,
 	KeyboardAvoidingView,
 	Platform,
-	Pressable,
-	Text,
 	TouchableWithoutFeedback,
 	View
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
-import { Fields } from './components'
-import { CustomButton, CustomCheckBox, GoBackButton } from '@/components'
+import { CheckBox, Fields } from './components'
+import { CustomButton, GoBackButton } from '@/components'
 import { IBaseFields, ScreenProps } from '@/types'
 
 const RegisterScreen: FC<ScreenProps> = ({ navigation }) => {
@@ -23,7 +21,8 @@ const RegisterScreen: FC<ScreenProps> = ({ navigation }) => {
 
 	const [isFocused, setIsFocused] = useState(false)
 
-	const [isAutoExit, setIsAutoExit] = useState(false)
+	const [isAutoExit, setIsAutoExit] = useState(true)
+	const [isSendingNews, setIsSendingNews] = useState(true)
 
 	const onSubmit: SubmitHandler<IBaseFields> = data => {
 		navigation.navigate('HomeScreen')
@@ -32,9 +31,6 @@ const RegisterScreen: FC<ScreenProps> = ({ navigation }) => {
 		console.log('Password is: ', data.password)
 
 		reset()
-	}
-	const handleChecked = () => {
-		setIsAutoExit(!isAutoExit)
 	}
 
 	return (
@@ -52,38 +48,35 @@ const RegisterScreen: FC<ScreenProps> = ({ navigation }) => {
 						behavior={Platform.OS === 'ios' ? 'padding' : 'position'}
 						className='flex-1 justify-center items-center '
 					>
-						<Fields
-							{...{ control, handleSubmit, onSubmit }}
-							// blur={() => {
-							// 	setIsFocused(false)
-							// }}
-							// focus={() => {
-							// 	setIsFocused(true)
-							// 	console.log(isFocused)
-							// }}
-						/>
-						<Pressable
-							onPress={() => {
-								handleChecked()
+						<Fields {...{ control, handleSubmit, onSubmit }} />
+						<CheckBox
+							title='Не виходити з мого аккаунту'
+							checked={isAutoExit}
+							callback={() => {
+								setIsAutoExit(!isAutoExit)
 							}}
-							className='mt-5 flex-row items-center'
-						>
-							<CustomCheckBox checked={isAutoExit} />
-							<Text className='ml-6 text-base text-white/60'>
-								Не виходити з мого аккаунту
-							</Text>
-						</Pressable>
+						/>
+						<CheckBox
+							title='Cповіщуйте о новинах на e-mail'
+							checked={isSendingNews}
+							callback={() => {
+								setIsSendingNews(!isSendingNews)
+							}}
+						/>
 					</KeyboardAvoidingView>
 					<KeyboardAvoidingView
 						// style={{ marginBottom: isFocused ? 10 : 10 }}
 						behavior={Platform.OS === 'ios' ? 'padding' : 'position'}
-						className='flex-end justify-center mb-7'
+						className='flex-end justify-center'
 					>
 						<CustomButton
-							onPress={handleSubmit(onSubmit)}
-							customClassName='my-4'
+							// onPress={handleSubmit(onSubmit)}
+							onPress={() => {
+								navigation.navigate('StepTwoRegScreen')
+							}}
+							customClassName='mb-7'
 						>
-							Створити аккаунт
+							Далі
 						</CustomButton>
 					</KeyboardAvoidingView>
 				</SafeAreaView>
