@@ -38,6 +38,15 @@ interface CustomInputProps extends IInput {
 	onSubmitEditing?: () => void
 	focus?: () => void
 	blur?: () => void
+	inputMode?:
+		| 'decimal'
+		| 'email'
+		| 'none'
+		| 'numeric'
+		| 'search'
+		| 'tel'
+		| 'text'
+		| 'url'
 }
 
 const CustomInput: FC<CustomInputProps> = ({
@@ -54,7 +63,8 @@ const CustomInput: FC<CustomInputProps> = ({
 	reference,
 	focus,
 	blur,
-	onSubmitEditing
+	onSubmitEditing,
+	inputMode
 }) => {
 	const [secureTextEntry, setSecureTextEntry] = useState(secure)
 
@@ -89,7 +99,8 @@ const CustomInput: FC<CustomInputProps> = ({
 									autoComplete,
 									autoCorrect,
 									returnKeyType,
-									onSubmitEditing
+									onSubmitEditing,
+									inputMode
 								}}
 								ref={reference}
 								onChangeText={onChange}

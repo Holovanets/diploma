@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import {
 	ImageBackground,
@@ -30,6 +30,14 @@ const StepTwoRegScreen: FC<ScreenProps> = ({ navigation }) => {
 	}
 
 	const [isFocus, setIsFocus] = useState(false)
+	const [isKeyboard, setIsKeyboard] = useState(false)
+
+	Keyboard.addListener('keyboardDidShow', () => {
+		setIsKeyboard(true)
+	})
+	Keyboard.addListener('keyboardDidHide', () => {
+		setIsKeyboard(false)
+	})
 
 	return (
 		<ImageBackground
@@ -43,19 +51,21 @@ const StepTwoRegScreen: FC<ScreenProps> = ({ navigation }) => {
 						<GoBackButton callback={navigation.goBack} />
 					</View>
 
-					<View className='flex-start'>
-						<Text className='text-white text-2xl font-bold my-4'>
-							Давай трішки заповнемо твій профіль
-						</Text>
-						<Text className='text-white text-base font-light mb-6'>
-							Ця інформація підвищить безпеку та унікальність твого аккаунту
-						</Text>
-					</View>
+					{!isKeyboard && (
+						<View className='flex-start'>
+							<Text className='text-white text-2xl font-bold my-4'>
+								Давай трішки заповнемо твій профіль
+							</Text>
+							<Text className='text-white text-base font-light mb-6'>
+								Ця інформація підвищить безпеку та унікальність твого аккаунту
+							</Text>
+						</View>
+					)}
 
 					<KeyboardAvoidingView
 						// style={{ marginBottom: isFocused ? 10 : 10 }}
 						behavior={Platform.OS === 'ios' ? 'padding' : 'padding'}
-						className='flex-1'
+						className='flex-1 items-center'
 					>
 						<Fields
 							{...{ control, handleSubmit, onSubmit }}
@@ -80,7 +90,7 @@ const StepTwoRegScreen: FC<ScreenProps> = ({ navigation }) => {
 							}}
 							customClassName='mb-7'
 						>
-							Далі
+							До закладів
 						</CustomButton>
 					</KeyboardAvoidingView>
 				</SafeAreaView>

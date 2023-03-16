@@ -1,5 +1,6 @@
 import {
 	ForgotPasswordScreen,
+	PhoneVerificationScreen,
 	RegisterScreen,
 	SignInScreen,
 	StepTwoRegScreen
@@ -15,5 +16,6 @@ export {
 	ForgotPasswordScreen,
 	RegisterScreen,
 	StepTwoRegScreen,
-	SignInScreen
+	SignInScreen,
+	PhoneVerificationScreen
 }
