@@ -9,9 +9,11 @@ export type TypeRootStackParamList = {
 	PlaceScreen: undefined
 	RegisterScreen: undefined
 	StepTwoRegScreen: undefined
+	PhoneVerificationScreen: undefined
+	ForgotPasswordScreen: undefined
 }
 
 export interface IRoute {
 	name: keyof TypeRootStackParamList
-	component: ComponentType<ScreenProps>
+	component: ComponentType<ScreenProps> | any
 }

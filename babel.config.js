@@ -19,6 +19,8 @@ module.exports = function (api) {
 						'@/regex': './app/regex',
 						'@/screens': './app/screens',
 						'@/types': './app/types',
+						'@/reducers': './app/reducers',
+						'@/actions': './app/actions',
 						'@/utils': './app/utils'
 					}
 				}

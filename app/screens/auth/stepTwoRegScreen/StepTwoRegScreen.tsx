@@ -13,18 +13,41 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 
 import { Fields } from './components'
 import { CustomButton, GoBackButton } from '@/components'
+import { CountryCode } from '@/constants'
 import { IAdditionalFields, ScreenProps } from '@/types'
 
-const StepTwoRegScreen: FC<ScreenProps> = ({ navigation }) => {
+interface StepTwoRegScreenProps extends ScreenProps {
+	route: {
+		params: {
+			username: string
+			email: string
+			password: string
+		}
+	}
+}
+
+const StepTwoRegScreen: FC<StepTwoRegScreenProps> = ({
+	navigation,
+	route: {
+		params: { username, email, password }
+	}
+}) => {
 	const { control, reset, handleSubmit } = useForm<IAdditionalFields>({
 		mode: 'onSubmit'
 	})
-
+	const [selectedCountry, setSelelctedCountry] = useState(
+		CountryCode.find(country => country.name === 'Ukraine')
+	)
 	const onSubmit: SubmitHandler<IAdditionalFields> = data => {
-		navigation.navigate('HomeScreen')
-		console.log('Username is: ', data.name)
-		console.log('Email is: ', data.surname)
-		console.log('Password is: ', data.phone)
+		// @ts-ignore
+		const phoneNumber = selectedCountry?.dial_code + data.phone
+		navigation.navigate('PhoneVerificationScreen', { phoneNumber })
+		console.log('Username is: ', username)
+		console.log('Email is: ', email)
+		console.log('Password is: ', password)
+		console.log('Name is: ', data.name)
+		console.log('Surname is: ', data.surname)
+		console.log(`Phone is:  ${selectedCountry?.dial_code} ${data.phone}`)
 
 		reset()
 	}
@@ -68,7 +91,13 @@ const StepTwoRegScreen: FC<ScreenProps> = ({ navigation }) => {
 						className='flex-1 items-center'
 					>
 						<Fields
-							{...{ control, handleSubmit, onSubmit }}
+							{...{
+								control,
+								handleSubmit,
+								onSubmit,
+								selectedCountry,
+								setSelelctedCountry
+							}}
 							focus={() => {
 								setIsFocus(true)
 							}}
@@ -84,13 +113,14 @@ const StepTwoRegScreen: FC<ScreenProps> = ({ navigation }) => {
 						className='justify-center items-center  flex-end'
 					>
 						<CustomButton
-							// onPress={handleSubmit(onSubmit)}
-							onPress={() => {
-								navigation.navigate('StepTwoRegScreen')
-							}}
+							// onPress={() => {
+							// 	navigation.navigate('PhoneVerificationScreen')
+							// }}
+
+							onPress={handleSubmit(onSubmit)}
 							customClassName='mb-7'
 						>
-							До закладів
+							Далі
 						</CustomButton>
 					</KeyboardAvoidingView>
 				</SafeAreaView>

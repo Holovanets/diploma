@@ -12,21 +12,37 @@ import {
 } from 'react-native'
 import { KeyboardAvoidingView } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { connect } from 'react-redux'
 
 import { Fields, SignTextLink, SocialButton } from './components'
-import { CustomButton, CustomInput } from '@/components'
+import GeneralAction from '@/actions/GeneralAction'
+import { CustomButton } from '@/components'
 import { Images } from '@/constants'
-import { validEmail } from '@/regex'
+import { AuthService } from '@/providers'
 import { IAuthFormData, ScreenProps } from '@/types'
-import Display from '@/utils/Display'
 
-const SignInScreen: FC<ScreenProps> = ({ navigation }) => {
+const SignInScreen: FC<ScreenProps> = ({ navigation, setToken }) => {
+	const [isLoading, setIsLoading] = useState(false)
+	const [errorMessage, setErrorMessage] = useState('')
+
 	const { control, reset, handleSubmit } = useForm<IAuthFormData>({
 		mode: 'onSubmit'
 	})
 	const onSubmit: SubmitHandler<IAuthFormData> = data => {
-		navigation.navigate('HomeScreen')
-		reset()
+		setIsLoading(true)
+		AuthService.login(data).then(response => {
+			console.log(response)
+			if (!response?.status) {
+				setErrorMessage(response?.message)
+			} else {
+				// console.log('good')
+				// console.log(response?.tokens?.auth_token)
+				if (setToken) setToken(response?.tokens?.auth_token)
+			}
+			setIsLoading(false)
+		})
+
+		// reset()
 	}
 
 	const { height } = useWindowDimensions()
@@ -55,6 +71,11 @@ const SignInScreen: FC<ScreenProps> = ({ navigation }) => {
 							behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
 						>
 							<Fields {...{ control, handleSubmit, onSubmit }} />
+							{errorMessage && (
+								<Text className='text-accentRed text-base mt-3 ml-2'>
+									{errorMessage}
+								</Text>
+							)}
 						</KeyboardAvoidingView>
 
 						<Text className='text-white font-extrabold text-base self-center my-4'>
@@ -87,6 +108,7 @@ const SignInScreen: FC<ScreenProps> = ({ navigation }) => {
 					>
 						<View className='flex-end justify-center'>
 							<CustomButton
+								loading={isLoading}
 								onPress={handleSubmit(onSubmit)}
 								customClassName='my-4'
 							>
@@ -100,4 +122,10 @@ const SignInScreen: FC<ScreenProps> = ({ navigation }) => {
 	)
 }
 
-export default SignInScreen
+const mapDispatchProps = (dispatch: any) => {
+	return {
+		setToken: (token: string) => dispatch(GeneralAction.setToken(token))
+	}
+}
+
+export default connect(null, mapDispatchProps)(SignInScreen)

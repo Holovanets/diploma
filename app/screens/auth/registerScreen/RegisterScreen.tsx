@@ -1,3 +1,4 @@
+import LottieView from 'lottie-react-native'
 import { FC, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import {
@@ -5,6 +6,7 @@ import {
 	Keyboard,
 	KeyboardAvoidingView,
 	Platform,
+	Text,
 	TouchableWithoutFeedback,
 	View
 } from 'react-native'
@@ -12,27 +14,55 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 
 import { CheckBox, Fields } from './components'
 import { CustomButton, GoBackButton } from '@/components'
+import { Images } from '@/constants'
+import { AuthService } from '@/providers'
 import { IBaseFields, ScreenProps } from '@/types'
 
 const RegisterScreen: FC<ScreenProps> = ({ navigation }) => {
-	const { control, reset, handleSubmit } = useForm<IBaseFields>({
-		mode: 'onSubmit'
-	})
-
-	const [isFocused, setIsFocused] = useState(false)
+	const [isLoading, setIsLoading] = useState(false)
 
 	const [isAutoExit, setIsAutoExit] = useState(true)
 	const [isSendingNews, setIsSendingNews] = useState(true)
 
+	const [errorMessage, setErrorMessage] = useState('')
+
+	const [emailError, setEmailError] = useState<undefined | string>('')
+	const [userNameError, setUserNameError] = useState<undefined | string>('')
+
+	const { control, reset, handleSubmit } = useForm<IBaseFields>({
+		mode: 'onSubmit'
+	})
+
 	const onSubmit: SubmitHandler<IBaseFields> = data => {
-		navigation.navigate('HomeScreen')
-		console.log('Username is: ', data.username)
-		console.log('Email is: ', data.email)
-		console.log('Password is: ', data.password)
+		// console.log(data)
 
-		reset()
+		setIsLoading(true)
+		chechUserExist(data).then(() => {
+			setIsLoading(false)
+		})
+		// AuthService.register(data).then(response => {
+		// 	setIsLoading(false)
+		// 	// console.log(response)
+		// 	if (!response?.status) {da
+		// 		setErrorMessage(response?.message)
+		// 	}
+		// })
+
+		// navigation.navigate('HomeScreen')
+		// reset()
 	}
-
+	const chechUserExist = async (params: IBaseFields) => {
+		AuthService.checkUserExist(params).then(response => {
+			if (response?.status) {
+				console.log(response)
+				setErrorMessage('')
+				navigation.navigate('StepTwoRegScreen', { ...params })
+			} else {
+				console.log(response)
+				setErrorMessage(response?.message)
+			}
+		})
+	}
 	return (
 		<ImageBackground
 			source={require('../../../../assets/images/bckg.png')}
@@ -63,6 +93,11 @@ const RegisterScreen: FC<ScreenProps> = ({ navigation }) => {
 								setIsSendingNews(!isSendingNews)
 							}}
 						/>
+						{errorMessage && (
+							<Text className='text-accentRed text-base mt-3 ml-2'>
+								{errorMessage}
+							</Text>
+						)}
 					</KeyboardAvoidingView>
 					<KeyboardAvoidingView
 						// style={{ marginBottom: isFocused ? 10 : 10 }}
@@ -70,11 +105,12 @@ const RegisterScreen: FC<ScreenProps> = ({ navigation }) => {
 						className='flex-end justify-center'
 					>
 						<CustomButton
-							// onPress={handleSubmit(onSubmit)}
-							onPress={() => {
-								navigation.navigate('StepTwoRegScreen')
-							}}
+							onPress={handleSubmit(onSubmit)}
+							// onPress={() => {
+							// 	navigation.navigate('StepTwoRegScreen')
+							// }}
 							customClassName='mb-7'
+							loading={isLoading}
 						>
 							Далі
 						</CustomButton>

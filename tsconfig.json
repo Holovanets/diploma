@@ -24,6 +24,10 @@
 			"@/screens": ["./app/screens"],
 			"@/screens/*": ["./app/screens/*"],
 			"@/types": ["./app/types"],
+			"@/reducers/*": ["./app/reducers/*"],
+			"@/reducers": ["./app/reducers"],
+			"@/actions/*": ["./app/actions/*"],
+			"@/actions": ["./app/actions"],
 			"@/types/*": ["./app/types/*"],
 			"@/utils/": ["./app/utils/"],
 			"@/utils/*": ["./app/utils/*"]

@@ -1,12 +1,24 @@
 import { NavigationProp } from '@react-navigation/native'
 import { FC, useRef, useState } from 'react'
 import { Animated, FlatList, ImageBackground, View } from 'react-native'
+import { useDispatch } from 'react-redux'
 
 import { NextButton, Paginator, WelcomeCard } from './components'
+import { GeneralAction } from '@/actions'
 import { General } from '@/constants'
+import { StorageService } from '@/providers'
 import { ScreenProps } from '@/types'
 
 const WelcomeScreen: FC<ScreenProps> = ({ navigation }) => {
+	const dispatch = useDispatch()
+
+	const navigate = () => {
+		console.log('puff')
+		StorageService.setFirstTimeUse().then(() => {
+			dispatch(GeneralAction.setIsFirstTimeUse())
+		})
+	}
+
 	const [currentIndex, setCurrentIndex] = useState(0)
 
 	const scrollX = useRef(new Animated.Value(0)).current
@@ -60,12 +72,7 @@ const WelcomeScreen: FC<ScreenProps> = ({ navigation }) => {
 				</View>
 				<Paginator data={General.WELCOME_CONTENT} {...{ scrollX }} />
 				{currentIndex === General.WELCOME_CONTENT.length - 1 ? (
-					<NextButton
-						callback={() => {
-							navigation.navigate('SignInScreen')
-						}}
-						title='Уперед'
-					/>
+					<NextButton callback={navigate} title='Уперед' />
 				) : (
 					<NextButton callback={scrollTo} title='Далі' />
 				)}

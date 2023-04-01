@@ -1,41 +1,13 @@
-import {
-	ForgotPasswordScreen,
-	HomeScreen,
-	PlaceScreen,
-	RegisterScreen,
-	SignInScreen,
-	StepTwoRegScreen,
-	WelcomeScreen
-} from '@/screens'
+import { HomeScreen, PlaceScreen } from '@/screens'
 import { IRoute } from '@/types'
 
-export const routes: IRoute[] = [
-	// {
-	// 	name: 'WelcomeScreen',
-	// 	component: WelcomeScreen
-	// },
-	// {
-	// 	name: 'SignInScreen',
-	// 	component: SignInScreen
-	// },
-	// {
-	// 	name: 'ForgotPasswordScreen',
-	// 	component: ForgotPasswordScreen
-	// },
+export const privateRoutes: IRoute[] = [
 	{
-		name: 'RegisterScreen',
-		component: RegisterScreen
+		name: 'HomeScreen',
+		component: HomeScreen
 	},
 	{
-		name: 'StepTwoRegScreen',
-		component: StepTwoRegScreen
+		name: 'PlaceScreen',
+		component: PlaceScreen
 	}
-	// {
-	// 	name: 'HomeScreen',
-	// 	component: HomeScreen
-	// },
-	// {
-	// 	name: 'PlaceScreen',
-	// 	component: PlaceScreen
-	// }
 ]

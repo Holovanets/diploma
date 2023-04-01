@@ -14,6 +14,22 @@ interface FieldsProps {
 	handleSubmit: UseFormHandleSubmit<any>
 	focus?: () => void
 	blur?: () => void
+	selectedCountry:
+		| {
+				name: string
+				dial_code: string | null
+				code: string
+		  }
+		| undefined
+	setSelelctedCountry: (
+		selectedCountry:
+			| {
+					name: string
+					dial_code: string | null
+					code: string
+			  }
+			| undefined
+	) => void
 }
 const getDropdownStyle = (y: number) => ({ bottom: y + 50 })
 const Fields: FC<FieldsProps> = ({
@@ -21,14 +37,13 @@ const Fields: FC<FieldsProps> = ({
 	onSubmit,
 	handleSubmit,
 	focus,
-	blur
+	blur,
+	selectedCountry,
+	setSelelctedCountry
 }) => {
 	const secondRef = useRef<TextInput | null>(null)
 	const thirdRef = useRef<TextInput | null>(null)
 
-	const [selectedCountry, setSelelctedCountry] = useState(
-		CountryCode.find(country => country.name === 'Ukraine')
-	)
 	const [inputsContainerY, setInputsConteinerY] = useState(0)
 	const [isDropDownOpen, setIsDropDownOpen] = useState(false)
 	const [dropDowLayout, setDropDownLayout] = useState({})
@@ -47,7 +62,9 @@ const Fields: FC<FieldsProps> = ({
 				onSubmitEditing={() => {
 					secondRef.current?.focus()
 				}}
-				rules={{}}
+				rules={{
+					required: "Обов'язково введіть ім'я"
+				}}
 			/>
 			<CustomInput
 				{...{ control, blur, focus }}
@@ -62,7 +79,9 @@ const Fields: FC<FieldsProps> = ({
 				onSubmitEditing={() => {
 					thirdRef.current?.focus()
 				}}
-				rules={{}}
+				rules={{
+					required: "Обов'язково введіть фамілію"
+				}}
 			/>
 			<PhoneInput
 				{...{
@@ -80,7 +99,17 @@ const Fields: FC<FieldsProps> = ({
 				returnKeyType='done'
 				reference={thirdRef}
 				onSubmitEditing={handleSubmit(onSubmit)}
-				rules={{}}
+				rules={{
+					required: "Обов'язково введіть номер телефону",
+					minLength: {
+						value: 9,
+						message: 'Телефон занадто короткий'
+					},
+					maxLength: {
+						value: 9,
+						message: 'Телефон занадто довгий'
+					}
+				}}
 			/>
 			{isDropDownOpen && (
 				<View
