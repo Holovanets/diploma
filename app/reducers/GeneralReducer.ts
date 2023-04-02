@@ -3,7 +3,7 @@ import { GeneralAction } from '@/actions'
 const initialState = {
 	isAppLoading: true,
 	token: '',
-	isFirstTimeUse: false
+	isFirstTimeUse: true
 }
 const GeneralReducer = (state = initialState, action: any) => {
 	switch (action.type) {
