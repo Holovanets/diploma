@@ -12,13 +12,13 @@ import {
 } from 'react-native'
 import { KeyboardAvoidingView } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { connect } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 
 import { Fields, SignTextLink, SocialButton } from './components'
 import GeneralAction from '@/actions/GeneralAction'
 import { CustomButton } from '@/components'
 import { Images } from '@/constants'
-import { AuthService } from '@/providers'
+import { AuthService, StorageService } from '@/providers'
 import { IAuthFormData, ScreenProps } from '@/types'
 
 const SignInScreen: FC<ScreenProps> = ({ navigation, setToken }) => {
@@ -28,6 +28,7 @@ const SignInScreen: FC<ScreenProps> = ({ navigation, setToken }) => {
 	const { control, reset, handleSubmit } = useForm<IAuthFormData>({
 		mode: 'onSubmit'
 	})
+	const dispatch = useDispatch()
 	const onSubmit: SubmitHandler<IAuthFormData> = data => {
 		setIsLoading(true)
 		AuthService.login(data).then(response => {
@@ -37,7 +38,16 @@ const SignInScreen: FC<ScreenProps> = ({ navigation, setToken }) => {
 			} else {
 				// console.log('good')
 				// console.log(response?.tokens?.auth_token)
-				if (setToken) setToken(response?.tokens?.auth_token)
+				StorageService.setToken(response?.tokens?.auth_token).then(() => {
+					dispatch(GeneralAction.setToken(response?.tokens?.auth_token))
+				})
+				StorageService.setRefreshToken(response?.tokens?.refresh_token).then(
+					() => {
+						dispatch(
+							GeneralAction.setRefreshToken(response?.tokens?.refresh_token)
+						)
+					}
+				)
 			}
 			setIsLoading(false)
 		})
@@ -124,7 +134,9 @@ const SignInScreen: FC<ScreenProps> = ({ navigation, setToken }) => {
 
 const mapDispatchProps = (dispatch: any) => {
 	return {
-		setToken: (token: string) => dispatch(GeneralAction.setToken(token))
+		setToken: (token: string) => dispatch(GeneralAction.setToken(token)),
+		setRefreshToken: (refreshToken: string) =>
+			dispatch(GeneralAction.setRefreshToken(refreshToken))
 	}
 }
 

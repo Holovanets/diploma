@@ -5,7 +5,7 @@ import { Provider } from 'react-redux'
 
 import Navigation from '@/navigation/Navigation'
 
-import Store from './app/Store'
+import { Store } from './app/Store'
 import { AuthProvider } from '@/providers'
 
 const queryClient = new QueryClient()

@@ -13,5 +13,18 @@ const setToken = (token: string) => {
 const getToken = () => {
 	return AsyncStorage.getItem('token')
 }
+const setRefreshToken = (refToken: string) => {
+	return AsyncStorage.setItem('refreshToken', refToken)
+}
+const getRefreshToken = () => {
+	return AsyncStorage.getItem('refreshToken')
+}
 
-export default { setFirstTimeUse, getFirstTimeUse, setToken, getToken }
+export default {
+	setFirstTimeUse,
+	getFirstTimeUse,
+	setToken,
+	getToken,
+	setRefreshToken,
+	getRefreshToken
+}

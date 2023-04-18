@@ -1,6 +1,10 @@
 import axios from 'axios'
 
+import { Generator } from '../utils'
+
+import StorageService from './StorageService'
 import { ApiConstants } from '@/constants'
+// import { getRefreshToken, getToken } from '../Store'
 import { IAuthFormData, IBaseFields } from '@/types'
 
 const AuthRequest = axios.create({
@@ -73,4 +77,22 @@ const login = async (user: IAuthFormData) => {
 		return { status: false, message: 'Упс. Дідько, помилка!' }
 	}
 }
-export default { register, login, checkUserExist }
+const refreshToken = async () => {
+	try {
+		let tokenResponse = await AuthRequest.post(
+			ApiConstants.BACKEND_API.REFRESH_TOKEN,
+			{ refresh_token: StorageService.getRefreshToken() },
+			{ headers: Generator.authHeader(StorageService.getToken()) }
+		)
+		if (tokenResponse?.status === 200) {
+			return { status: true, data: tokenResponse?.data }
+		} else {
+			return { status: false }
+		}
+	} catch (error) {
+		console.log(error)
+		return { status: false, message: 'Упс. Дідько, помилка!' }
+	}
+}
+
+export default { register, login, checkUserExist, refreshToken }

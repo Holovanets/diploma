@@ -1,18 +1,24 @@
-import { GeneralAction } from '@/actions'
+import { GeneralActionTypes } from '@/actions'
 
 const initialState = {
 	isAppLoading: true,
 	token: '',
-	isFirstTimeUse: true
+	refreshToken: '',
+	isFirstTimeUse: true,
+	userData: {}
 }
 const GeneralReducer = (state = initialState, action: any) => {
 	switch (action.type) {
-		case GeneralAction.types.SET_IS_APP_LOADING:
+		case GeneralActionTypes.types.SET_IS_APP_LOADING:
 			return { ...state, isAppLoading: action.payload }
-		case GeneralAction.types.SET_TOKEN:
+		case GeneralActionTypes.types.SET_TOKEN:
 			return { ...state, token: action.payload }
-		case GeneralAction.types.SET_FIRST_TIME_USE:
+		case GeneralActionTypes.types.SET_REFRESH_TOKEN:
+			return { ...state, refreshToken: action.payload }
+		case GeneralActionTypes.types.SET_FIRST_TIME_USE:
 			return { ...state, isFirstTimeUse: action.payload }
+		case GeneralActionTypes.types.SET_USER_DATA:
+			return { ...state, userData: action.payload }
 		default:
 			return state
 	}

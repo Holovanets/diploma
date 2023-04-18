@@ -13,7 +13,6 @@ const WelcomeScreen: FC<ScreenProps> = ({ navigation }) => {
 	const dispatch = useDispatch()
 
 	const navigate = () => {
-		console.log('puff')
 		StorageService.setFirstTimeUse().then(() => {
 			dispatch(GeneralAction.setIsFirstTimeUse())
 		})

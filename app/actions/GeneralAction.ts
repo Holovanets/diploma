@@ -1,51 +1,103 @@
-import { StorageService } from '@/providers'
-
-const types = {
-	SET_IS_APP_LOADING: 'SET_IS_APP_LOADING',
-	SET_TOKEN: 'SET_TOKEN',
-	SET_FIRST_TIME_USE: 'SET_FIRST_TIME_USE'
-}
+import GeneralActionTypes from './GeneralActionTypes'
+import { AuthService, StorageService, UserService } from '@/providers'
 
 const setIsAppLoading = (isAppLoading: boolean) => {
 	return {
-		type: types.SET_IS_APP_LOADING,
+		type: GeneralActionTypes.types.SET_IS_APP_LOADING,
 		payload: isAppLoading
 	}
 }
 const setToken = (token: string) => {
 	return {
-		type: types.SET_TOKEN,
+		type: GeneralActionTypes.types.SET_TOKEN,
 		payload: token
 	}
 }
-const setIsFirstTimeUse = () => {
+const setRefreshToken = (refToken: string) => {
 	return {
-		type: types.SET_IS_APP_LOADING,
+		type: GeneralActionTypes.types.SET_REFRESH_TOKEN,
+		payload: refToken
+	}
+}
+const setIsFirstTimeUse = () => {
+	console.log('SetIsFirstTimeUse to false')
+	return {
+		type: GeneralActionTypes.types.SET_FIRST_TIME_USE,
 		payload: false
 	}
 }
 
 const appStart = () => {
 	return (dispatch: any, getState: any) => {
-		StorageService.getFirstTimeUse().then(isFirstTimeUse => {
+		StorageService?.getFirstTimeUse().then(isFirstTimeUse => {
 			dispatch({
-				type: types.SET_FIRST_TIME_USE,
+				type: GeneralActionTypes.types.SET_FIRST_TIME_USE,
 				payload: isFirstTimeUse ? false : true
 			})
 		})
-		StorageService.getToken().then(token => {
+		StorageService?.getToken().then(token => {
 			if (token) {
 				dispatch({
-					type: types.SET_TOKEN,
+					type: GeneralActionTypes.types.SET_TOKEN,
 					payload: token
 				})
+				UserService?.getUserData().then(userResponse => {
+					if (userResponse?.status) {
+						dispatch({
+							type: GeneralActionTypes.types.SET_USER_DATA,
+							payload: userResponse?.data
+						})
+						// dispatch(CartAction.getCartItems());
+						// dispatch(BookmarkAction.getBookmarks());
+						dispatch({
+							type: GeneralActionTypes.types.SET_IS_APP_LOADING,
+							payload: false
+						})
+					} else if (userResponse?.message === 'TokenExpiredError') {
+						AuthService?.refreshToken().then(tokenResponse => {
+							if (tokenResponse?.status) {
+								dispatch({
+									type: GeneralActionTypes.types.SET_TOKEN,
+									payload: tokenResponse?.data
+								})
+								UserService?.getUserData().then(userResponse => {
+									if (userResponse?.status) {
+										dispatch({
+											type: GeneralActionTypes.types.SET_USER_DATA,
+											payload: userResponse?.data
+										})
+										dispatch({
+											type: GeneralActionTypes.types.SET_IS_APP_LOADING,
+											payload: false
+										})
+									}
+								})
+							} else {
+								dispatch({
+									type: GeneralActionTypes.types.SET_TOKEN,
+									payload: ''
+								})
+								dispatch({
+									type: GeneralActionTypes.types.SET_IS_APP_LOADING,
+									payload: false
+								})
+							}
+						})
+					}
+				})
 			}
-		})
-		dispatch({
-			type: types.SET_IS_APP_LOADING,
-			payload: false
+			dispatch({
+				type: GeneralActionTypes.types.SET_IS_APP_LOADING,
+				payload: false
+			})
 		})
 	}
 }
 
-export default { setIsAppLoading, setToken, types, appStart, setIsFirstTimeUse }
+export default {
+	setIsAppLoading,
+	setToken,
+	appStart,
+	setIsFirstTimeUse,
+	setRefreshToken
+}

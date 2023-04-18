@@ -12,7 +12,9 @@ const BACKEND_API = {
 	BASE_API_URL: `${BACKEND_BASE_URL}/api`,
 	REGISTER: '/auth/register',
 	REG_VALIDATE: '/auth/register/validate',
-	LOGIN: '/auth/login'
+	LOGIN: '/auth/login',
+	REFRESH_TOKEN: 'auth/tokens/refresh',
+	GET_USER: 'users/me'
 }
 
 export default { COUNTRY_FLAG, BACKEND_API }
