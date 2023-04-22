@@ -52,7 +52,7 @@
 		"typescript": "^4.6.3"
 	},
 	"projectConfig": {
-		"backendApiBaseUrl": "http://26.208.51.87:3023"
+		"backendApiBaseUrl": "http://176.57.68.130:3023"
 	},
 	"private": true
 }

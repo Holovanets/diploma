@@ -43,7 +43,7 @@ const WelcomeScreen: FC<ScreenProps> = ({ navigation }) => {
 			resizeMode='cover'
 			className='flex-1'
 		>
-			<View className='flex-1 justify-center items-center bg-black pt-20'>
+			<View className='flex-1 justify-center items-center pt-20'>
 				<View
 					style={{
 						flex: 3

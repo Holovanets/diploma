@@ -13,8 +13,9 @@ const BACKEND_API = {
 	REGISTER: '/auth/register',
 	REG_VALIDATE: '/auth/register/validate',
 	LOGIN: '/auth/login',
-	REFRESH_TOKEN: 'auth/tokens/refresh',
-	GET_USER: 'users/me'
+	REFRESH_TOKEN: '/auth/tokens/refresh',
+	GET_USER: '/users/me',
+	GET_ALL_RESTIKI: '/restiki/all'
 }
 
 export default { COUNTRY_FLAG, BACKEND_API }

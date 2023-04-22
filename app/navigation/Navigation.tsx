@@ -19,8 +19,7 @@ const Navigation: FC<INavProps> = () => {
 	useEffect(() => {
 		dispatch(GeneralAction.appStart())
 	}, [])
-
-	console.log(token)
+	// console.log(token)
 
 	return (
 		<>

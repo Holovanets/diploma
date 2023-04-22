@@ -12,11 +12,17 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 
 import { Fields } from './components'
 import { CustomButton, GoBackButton } from '@/components'
-import { ScreenProps } from '@/types'
+import { AuthService } from '@/providers'
+import { IFinalFields, ScreenProps } from '@/types'
 
 interface PhoneVerificationScreenProps extends ScreenProps {
 	route: {
 		params: {
+			username: string
+			email: string
+			password: string
+			name: string
+			surname: string
 			phoneNumber: string
 		}
 	}
@@ -25,10 +31,38 @@ interface PhoneVerificationScreenProps extends ScreenProps {
 const PhoneVerificationScreen: FC<PhoneVerificationScreenProps> = ({
 	navigation,
 	route: {
-		params: { phoneNumber }
+		params: { username, email, password, name, surname, phoneNumber }
 	}
 }) => {
+	// console.log('Username is: ', username)
+	// console.log('Email is: ', email)
+	// console.log('Password is: ', password)
+	// console.log('Name is: ', name)
+	// console.log('Surname is: ', surname)
+	// console.log(`Phone is:  ${phoneNumber}`)
+	const [isLoading, setIsLoading] = useState(false)
+	const [errorMessage, setErrorMessage] = useState('')
+	const data = {
+		email,
+		password,
+		username,
+		name,
+		surname
+	}
 	const [otp, setOtp] = useState({ 1: '', 2: '', 3: '', 4: '' })
+
+	const reg = (data: IFinalFields) => {
+		// console.log(data)
+		setIsLoading(true)
+		AuthService.register(data).then(response => {
+			// console.log(response)
+			if (!response?.status) {
+				setErrorMessage(response?.message)
+			}
+			setIsLoading(false)
+		})
+	}
+
 	return (
 		<ImageBackground
 			source={require('../../../../assets/images/bckg.png')}
@@ -55,6 +89,11 @@ const PhoneVerificationScreen: FC<PhoneVerificationScreenProps> = ({
 						className='flex-1 items-center'
 					>
 						<Fields {...{ otp, setOtp }} />
+						{errorMessage && (
+							<Text className='text-accentRed text-base mt-3 ml-2'>
+								{errorMessage}
+							</Text>
+						)}
 					</KeyboardAvoidingView>
 
 					<KeyboardAvoidingView
@@ -64,10 +103,10 @@ const PhoneVerificationScreen: FC<PhoneVerificationScreenProps> = ({
 					>
 						<CustomButton
 							onPress={() => {
-								// navigation.navigate('PhoneVerificationScreen')
-								console.log(otp)
+								reg(data)
 							}}
 							customClassName='mb-7'
+							loading={isLoading}
 						>
 							До закладів
 						</CustomButton>

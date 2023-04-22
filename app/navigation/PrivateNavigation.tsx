@@ -17,8 +17,6 @@ const PrivateNavigation: FC<INavProps> = ({
 	isAppLoading,
 	isFirstTimeUse
 }) => {
-	console.log(isFirstTimeUse)
-
 	return (
 		<Stack.Navigator
 			screenOptions={{

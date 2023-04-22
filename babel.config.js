@@ -21,6 +21,7 @@ module.exports = function (api) {
 						'@/types': './app/types',
 						'@/reducers': './app/reducers',
 						'@/actions': './app/actions',
+						'@/services': './app/services',
 						'@/utils': './app/utils'
 					}
 				}

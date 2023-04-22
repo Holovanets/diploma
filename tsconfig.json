@@ -29,8 +29,10 @@
 			"@/actions/*": ["./app/actions/*"],
 			"@/actions": ["./app/actions"],
 			"@/types/*": ["./app/types/*"],
-			"@/utils/": ["./app/utils/"],
-			"@/utils/*": ["./app/utils/*"]
+			"@/utils": ["./app/utils"],
+			"@/utils/*": ["./app/utils/*"],
+			"@/services/*": ["./app/services/*"],
+			"@/services": ["./app/services"]
 		}
 	}
 }

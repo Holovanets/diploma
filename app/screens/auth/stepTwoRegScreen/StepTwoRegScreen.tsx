@@ -41,15 +41,15 @@ const StepTwoRegScreen: FC<StepTwoRegScreenProps> = ({
 	const onSubmit: SubmitHandler<IAdditionalFields> = data => {
 		// @ts-ignore
 		const phoneNumber = selectedCountry?.dial_code + data.phone
-		navigation.navigate('PhoneVerificationScreen', { phoneNumber })
-		console.log('Username is: ', username)
-		console.log('Email is: ', email)
-		console.log('Password is: ', password)
-		console.log('Name is: ', data.name)
-		console.log('Surname is: ', data.surname)
-		console.log(`Phone is:  ${selectedCountry?.dial_code} ${data.phone}`)
+		navigation.navigate('PhoneVerificationScreen', {
+			username,
+			email,
+			password,
+			phoneNumber,
+			...data
+		})
 
-		reset()
+		// reset()
 	}
 
 	const [isFocus, setIsFocus] = useState(false)

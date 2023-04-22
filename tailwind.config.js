@@ -7,7 +7,8 @@ module.exports = {
 			colors: {
 				primary: '#110021',
 				accentRed: '#C1272D',
-				price: '#FEB536'
+				price: '#FEB536',
+				lightRed: '#FF5F5F'
 			}
 		}
 	},

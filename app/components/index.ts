@@ -5,6 +5,7 @@ import { FiltersButton } from './filtersButton'
 import { GoBackButton } from './goBackButton'
 import { NotificationButton } from './notificationButton'
 import { PhoneInput } from './phoneInput'
+import { RestourantCard } from './restourantCard'
 import { Separator } from './separator'
 
 export {
@@ -15,5 +16,6 @@ export {
 	CustomCheckBox,
 	NotificationButton,
 	FiltersButton,
-	PhoneInput
+	PhoneInput,
+	RestourantCard
 }

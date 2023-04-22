@@ -9,3 +9,10 @@ export interface IAdditionalFields {
 	surname: string
 	phone: number
 }
+export interface IFinalFields {
+	email: string
+	password: string
+	username: string
+	name: string
+	surname: string
+}

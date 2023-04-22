@@ -5,7 +5,7 @@ import { Generator } from '../utils'
 import StorageService from './StorageService'
 import { ApiConstants } from '@/constants'
 // import { getRefreshToken, getToken } from '../Store'
-import { IAuthFormData, IBaseFields } from '@/types'
+import { IAuthFormData, IBaseFields, IFinalFields } from '@/types'
 
 const AuthRequest = axios.create({
 	baseURL: ApiConstants.BACKEND_API.BASE_API_URL
@@ -31,27 +31,37 @@ const checkUserExist = async (valUser: IBaseFields) => {
 	}
 }
 
-const register = async (user: IBaseFields) => {
-	if (!user?.username || !user?.email || !user?.password) {
+const register = async (user: IFinalFields) => {
+	if (
+		!user?.username ||
+		!user?.email ||
+		!user?.password ||
+		!user?.name ||
+		!user?.surname
+	) {
 		return { status: false, message: 'Пожалуйста заполните все поля' }
 	}
+	let requestBody = {
+		username: user?.username,
+		email: user?.email,
+		password: user?.password,
+		name: user?.name,
+		surname: user?.surname
+	}
 	try {
-		let requestBody = {
-			username: user?.username,
-			email: user?.email,
-			password: user?.password,
-			name: 'Sasha',
-			surname: 'Karaguts'
-		}
 		let registerResponse = await AuthRequest.post(
 			ApiConstants.BACKEND_API.REGISTER,
 			requestBody
 		)
-		console.log(registerResponse?.data)
-
-		return registerResponse?.data
+		console.log(
+			` response data: ${registerResponse?.data}, url: ${ApiConstants.BACKEND_API.REGISTER}`
+		)
+		return { status: true, ...registerResponse?.data }
 	} catch (error) {
-		console.log(error)
+		console.log(
+			` response error: ${error}, url: ${ApiConstants.BACKEND_API.BASE_API_URL}${ApiConstants.BACKEND_API.REGISTER}`
+		)
+		console.log(requestBody)
 
 		return { status: false, message: 'Упс. Дідько, помилка!' }
 	}

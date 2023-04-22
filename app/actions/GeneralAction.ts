@@ -42,6 +42,8 @@ const appStart = () => {
 					payload: token
 				})
 				UserService?.getUserData().then(userResponse => {
+					console.log(`userResponse: `)
+					console.log(userResponse)
 					if (userResponse?.status) {
 						dispatch({
 							type: GeneralActionTypes.types.SET_USER_DATA,
@@ -54,6 +56,8 @@ const appStart = () => {
 							payload: false
 						})
 					} else if (userResponse?.message === 'TokenExpiredError') {
+						console.log('refreshing token')
+
 						AuthService?.refreshToken().then(tokenResponse => {
 							if (tokenResponse?.status) {
 								dispatch({
@@ -72,16 +76,18 @@ const appStart = () => {
 										})
 									}
 								})
-							} else {
-								dispatch({
-									type: GeneralActionTypes.types.SET_TOKEN,
-									payload: ''
-								})
-								dispatch({
-									type: GeneralActionTypes.types.SET_IS_APP_LOADING,
-									payload: false
-								})
 							}
+						})
+					} else {
+						console.log('dispatch token to ""')
+
+						dispatch({
+							type: GeneralActionTypes.types.SET_TOKEN,
+							payload: ''
+						})
+						dispatch({
+							type: GeneralActionTypes.types.SET_IS_APP_LOADING,
+							payload: false
 						})
 					}
 				})

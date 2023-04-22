@@ -2,7 +2,7 @@ import { FC } from 'react'
 import { Image, Text, View } from 'react-native'
 
 import { Images } from '@/constants'
-import { Display } from '@/utils/'
+import { Display } from '@/utils'
 
 const WelcomeCard: FC<IWelcomeContent> = ({ title, content, image }) => {
 	return (

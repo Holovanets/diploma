@@ -6,7 +6,7 @@ import StorageService from './StorageService'
 import { ApiConstants } from '@/constants'
 
 const getUserData = async () => {
-	console.log('User Service | getUserData')
+	// console.log('User Service | getUserData')
 	try {
 		let userResponse = await axios.get(
 			`${ApiConstants.BACKEND_API.BASE_API_URL}${ApiConstants.BACKEND_API.GET_USER}`,
@@ -15,6 +15,8 @@ const getUserData = async () => {
 			}
 		)
 		if (userResponse?.status === 200) {
+			console.log('User data Fetched')
+
 			return {
 				status: true,
 				message: 'User data fetched.',
@@ -27,6 +29,8 @@ const getUserData = async () => {
 			}
 		}
 	} catch (error) {
+		console.log(`user data error ${error}`)
+
 		return {
 			status: false,
 			message: 'User data fetch error.',
