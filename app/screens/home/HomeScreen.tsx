@@ -10,8 +10,8 @@ import {
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
-import { SearchBar, TopBar } from './components'
-import { RestourantCard } from '@/components'
+import { RestourantCard, SearchBar, TopBar } from './components'
+import { Separator } from '@/components'
 import { RestourantService } from '@/services'
 import { ScreenProps } from '@/types'
 import { Display } from '@/utils'
@@ -68,13 +68,16 @@ const HomeScreen: FC<ScreenProps> = ({ navigation }) => {
 						</View>
 						<FlatList
 							showsHorizontalScrollIndicator={false}
-							pagingEnabled
+							// pagingEnabled
 							overScrollMode='never'
 							data={restourants}
 							keyExtractor={item => item?.id}
 							horizontal
+							ListHeaderComponent={() => <Separator width={28} />}
+							ListFooterComponent={() => <Separator width={28} />}
+							ItemSeparatorComponent={() => <Separator width={14} />}
 							renderItem={({ item }) => <RestourantCard {...item} />}
-							className='ml-7'
+							// className='ml-7'
 							style={{ overflow: 'visible' }}
 						/>
 					</View>
