@@ -15,7 +15,8 @@ const BACKEND_API = {
 	LOGIN: '/auth/login',
 	REFRESH_TOKEN: '/auth/tokens/refresh',
 	GET_USER: '/users/me',
-	GET_ALL_RESTIKI: '/restiki/all'
+	GET_ALL_RESTIKI: '/restiki/all',
+	GET_RESTIK: '/restiki/get'
 }
 
 export default { COUNTRY_FLAG, BACKEND_API }

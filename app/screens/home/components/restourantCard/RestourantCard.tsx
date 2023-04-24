@@ -6,28 +6,35 @@ import Distance from './Distance'
 import Rating from './Rating'
 import Time from './Time'
 import { Colors } from '@/constants'
+import { ScreenProps } from '@/types'
 
-interface ICard {
+interface ICard extends ScreenProps {
+	id: number
 	name: string
 	geolat: string
 	geolng: string
 	logo: string
 	poster: string
 	cover: string
+	navigate: (id: number, cover: string) => void
 }
 
 const RestourantCard: FC<ICard> = ({
+	id,
 	name,
 	geolat,
 	geolng,
 	logo,
 	poster,
-	cover
+	cover,
+	navigate,
+	navigation
 }) => {
 	console.log()
 	return (
 		<View className='rounded-2xl overflow-hidden w-80'>
 			<Pressable
+				onPress={() => navigate(id, cover)}
 				className='w-80 h-64 bg-black/50 rounded-2xl overflow-hidden'
 				android_ripple={{ color: 'rgba(255,255,255,0.3)' }}
 			>

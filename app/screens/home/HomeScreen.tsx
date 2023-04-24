@@ -16,6 +16,14 @@ import { RestourantService } from '@/services'
 import { ScreenProps } from '@/types'
 import { Display } from '@/utils'
 
+const categories = [
+	{ name: 'Недавние' },
+	{ name: 'Любимые' },
+	{ name: 'Популярные' },
+	{ name: 'Лучшие' },
+	{ name: 'Трендовые' }
+]
+
 const HomeScreen: FC<ScreenProps> = ({ navigation }) => {
 	const [notifNum, setNotifNum] = useState(0)
 	const [activeCategory, setActiveCategory] = useState()
@@ -43,7 +51,7 @@ const HomeScreen: FC<ScreenProps> = ({ navigation }) => {
 			resizeMode='cover'
 			className='flex-1'
 		>
-			<SafeAreaView className='py-7 px-0 flex-1'>
+			<SafeAreaView className='pt-7 px-0 flex-1'>
 				<View className='px-7'>
 					<TopBar notificationCount={notifNum} />
 					<SearchBar />
@@ -76,10 +84,25 @@ const HomeScreen: FC<ScreenProps> = ({ navigation }) => {
 							ListHeaderComponent={() => <Separator width={28} />}
 							ListFooterComponent={() => <Separator width={28} />}
 							ItemSeparatorComponent={() => <Separator width={14} />}
-							renderItem={({ item }) => <RestourantCard {...item} />}
+							renderItem={({ item }) => (
+								<RestourantCard
+									navigate={(restID: number, cover: string) =>
+										navigation.navigate('PlaceScreen', { restID, cover })
+									}
+									{...item}
+								/>
+							)}
 							// className='ml-7'
 							style={{ overflow: 'visible' }}
 						/>
+					</View>
+
+					<View className='flex-row'>
+						{categories.map(item => (
+							<Pressable key={item.name}>
+								<Text key={item.name}>{item.name}</Text>
+							</Pressable>
+						))}
 					</View>
 				</ScrollView>
 			</SafeAreaView>
