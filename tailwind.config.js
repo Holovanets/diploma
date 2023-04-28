@@ -8,7 +8,8 @@ module.exports = {
 				primary: '#110021',
 				accentRed: '#C1272D',
 				price: '#FEB536',
-				lightRed: '#FF5F5F'
+				lightRed: '#FF5F5F',
+				mDark: '#0E1110'
 			}
 		}
 	},

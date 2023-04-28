@@ -30,7 +30,6 @@ const RestourantCard: FC<ICard> = ({
 	navigate,
 	navigation
 }) => {
-	console.log()
 	return (
 		<View className='rounded-2xl overflow-hidden w-80'>
 			<Pressable

@@ -86,8 +86,8 @@ const HomeScreen: FC<ScreenProps> = ({ navigation }) => {
 							ItemSeparatorComponent={() => <Separator width={14} />}
 							renderItem={({ item }) => (
 								<RestourantCard
-									navigate={(restID: number, cover: string) =>
-										navigation.navigate('PlaceScreen', { restID, cover })
+									navigate={(id: number, cover: string) =>
+										navigation.navigate('PlaceScreen', { id, cover })
 									}
 									{...item}
 								/>

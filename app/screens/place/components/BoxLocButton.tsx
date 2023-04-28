@@ -10,7 +10,7 @@ interface GoBackProps {
 
 const BoxLocButton: FC<GoBackProps> = ({ callback }) => {
 	return (
-		<View className='rounded-2xl justify-center  overflow-hidden w-12 h-12 bg-accentRed/20 '>
+		<View className='rounded-2xl justify-center  overflow-hidden w-12 h-12 bg-black/50 '>
 			<Pressable
 				android_ripple={{ color: 'rgba(255,255,255,0.3)' }}
 				className='items-center justify-center content-center w-12 h-12'

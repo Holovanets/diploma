@@ -39,7 +39,7 @@ const getRestourants = async () => {
 	}
 }
 const getRestourantById = async (restID: number) => {
-	console.log('Getting restourants | RestourantService')
+	console.log(`Getting single restourant with id ${restID} | RestourantService`)
 	try {
 		let restourantResponse = await axios.get(
 			`${ApiConstants.BACKEND_API.BASE_API_URL}${ApiConstants.BACKEND_API.GET_RESTIK}/${restID}`,
