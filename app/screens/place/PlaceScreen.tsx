@@ -244,10 +244,16 @@ const PlaceScreen: FC<IPlace> = ({
 					{ useNativeDriver: true }
 				)}
 				renderItem={({ item }) => (
-					<View
+					<Animated.View
 						style={{
-							borderTopLeftRadius: 30,
-							borderTopRightRadius: 30
+							borderTopLeftRadius: scrollY.interpolate({
+								inputRange: [HEADER_HEIGHT - 220, HEADER_HEIGHT - 170],
+								outputRange: [10, 0]
+							}),
+							borderTopRightRadius: scrollY.interpolate({
+								inputRange: [HEADER_HEIGHT - 220, HEADER_HEIGHT - 170],
+								outputRange: [10, 0]
+							})
 						}}
 						className='w-full bg-mDark pt-10 -mt-10 z-10'
 					>
@@ -276,7 +282,7 @@ const PlaceScreen: FC<IPlace> = ({
 									<FoodCard key={item.Id} {...item} />
 								))}
 						</View>
-					</View>
+					</Animated.View>
 				)}
 			/>
 			{renderHeaderBar()}
