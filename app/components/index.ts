@@ -8,6 +8,7 @@ import { GoBackButton } from './goBackButton'
 import { NotificationButton } from './notificationButton'
 import { PhoneInput } from './phoneInput'
 import { Separator } from './separator'
+import { TabIcon } from './tabIcon'
 
 export {
 	Separator,
@@ -18,5 +19,6 @@ export {
 	NotificationButton,
 	FiltersButton,
 	PhoneInput,
-	RestourantCard
+	RestourantCard,
+	TabIcon
 }

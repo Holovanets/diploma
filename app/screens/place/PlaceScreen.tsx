@@ -1,7 +1,14 @@
 import { Octicons } from '@expo/vector-icons'
 import { StatusBar } from 'expo-status-bar'
-import { FC, useEffect, useState } from 'react'
-import { FlatList, Image, ImageBackground, Text, View } from 'react-native'
+import { FC, useEffect, useRef, useState } from 'react'
+import {
+	Animated,
+	FlatList,
+	Image,
+	ImageBackground,
+	Text,
+	View
+} from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
@@ -70,67 +77,139 @@ const ListFooter = () => (
 	</View>
 )
 
+const HEADER_HEIGHT = 350
+
 const PlaceScreen: FC<IPlace> = ({
 	navigation,
 	route: {
 		params: { id, cover }
 	}
 }) => {
+	const [restInfo, setRestInfo] = useState(null)
 	const [restName, setRestName] = useState('Restik')
 	const [selectedCategory, setSelectedCategory] = useState(
 		testCategories[0].name
 	)
 	const [isLoved, setIsLoved] = useState(false)
 
+	const scrollY = useRef(new Animated.Value(0)).current
+
 	useEffect(() => {
 		RestourantService.getRestourantById(id).then(response => {
 			if (response?.status) {
-				console.log(response?.data?.name)
+				console.log(restInfo)
+
 				setRestName(response?.data?.name)
+				setRestInfo(response?.data)
 			} else {
 				console.log(response.message)
 				console.log(`rest id ${id}`)
 			}
 		})
 	}, [])
-	return (
-		<ImageBackground
-			source={require('../../../assets/images/bckg.png')}
-			resizeMode='cover'
-			className='flex-1'
-		>
-			<ImageBackground
-				source={{ uri: cover }}
-				className='w-full h-96 flex-col justify-between pb-10 z-0'
-				resizeMode='cover'
+
+	function renderHeaderBar() {
+		return (
+			<View
+				style={{
+					position: 'absolute',
+					top: 0,
+					left: 0,
+					right: 0
+				}}
+				className='justify-between items-center px-7 pt-6 flex-row'
 			>
-				<View className='px-6 pt-7'>
-					<View className='flex-row w-full justify-between'>
-						<View className='justify-left'>
-							<GoBackButton callback={navigation.goBack} dark />
-						</View>
-						<View className='justify-right flex-row'>
-							<BoxLocButton callback={() => console.log('lol')} />
-							<BoxSearchButton callback={() => console.log('lol')} />
-							<BoxLikeButton
-								callback={() => setIsLoved(prev => !prev)}
-								active={isLoved}
-							/>
-						</View>
-					</View>
+				<Animated.View
+					style={{
+						position: 'absolute',
+						top: 0,
+						right: 0,
+						left: 0,
+						bottom: 0,
+						height: 90,
+						backgroundColor: Colors.M_DARK,
+						opacity: scrollY.interpolate({
+							inputRange: [HEADER_HEIGHT - 220, HEADER_HEIGHT - 120],
+							outputRange: [0, 1]
+						})
+					}}
+				/>
+				<View className='justify-left'>
+					<GoBackButton callback={navigation.goBack} dark />
 				</View>
-				<View className='px-7'>
-					<Text
+				<View className='justify-right flex-row'>
+					<BoxLocButton callback={() => console.log('lol')} />
+					<BoxSearchButton callback={() => console.log('lol')} />
+					<BoxLikeButton
+						callback={() => setIsLoved(prev => !prev)}
+						active={isLoved}
+					/>
+				</View>
+			</View>
+		)
+	}
+
+	function renderRestourantHeader() {
+		return (
+			<View
+				className='items-center overflow-hidden'
+				style={{ marginTop: -1000, paddingTop: 1000 }}
+			>
+				<Animated.Image
+					source={{ uri: cover }}
+					resizeMode='contain'
+					style={{
+						height: HEADER_HEIGHT,
+						width: '200%',
+						transform: [
+							{
+								translateY: scrollY.interpolate({
+									inputRange: [-HEADER_HEIGHT, 0, HEADER_HEIGHT],
+									outputRange: [-HEADER_HEIGHT / 2, 0, HEADER_HEIGHT * 0.75]
+								})
+							},
+							{
+								scale: scrollY.interpolate({
+									inputRange: [-HEADER_HEIGHT, 0, HEADER_HEIGHT],
+									outputRange: [2, 1, 0.75]
+								})
+							}
+						]
+					}}
+				/>
+
+				<Animated.View
+					style={{
+						position: 'absolute',
+						bottom: 30,
+						left: 30,
+						right: 30,
+						height: 150,
+						transform: [
+							{
+								translateY: scrollY.interpolate({
+									inputRange: [0, 70, 250],
+									outputRange: [0, 0, 150],
+									extrapolate: 'clamp'
+								})
+							}
+						]
+					}}
+				>
+					<Animated.Text
 						className='text-white text-4xl font-bold '
 						style={{
 							textShadowColor: '#000',
 							textShadowOffset: { width: 0, height: 2 },
-							textShadowRadius: 15
+							textShadowRadius: 15,
+							opacity: scrollY.interpolate({
+								inputRange: [HEADER_HEIGHT - 220, HEADER_HEIGHT - 170],
+								outputRange: [1, 0]
+							})
 						}}
 					>
 						{restName}
-					</Text>
-
+					</Animated.Text>
 					<FlatList
 						showsHorizontalScrollIndicator={false}
 						data={testData}
@@ -139,43 +218,68 @@ const PlaceScreen: FC<IPlace> = ({
 						renderItem={({ item }) => <InfoButton {...item} />}
 						className='my-5 overflow-visible'
 					/>
-				</View>
-			</ImageBackground>
-			<ScrollView className='-mt-10 z-10'>
-				<View
-					style={{
-						borderTopLeftRadius: 30,
-						borderTopRightRadius: 30
-					}}
-					className='w-full bg-mDark pt-10'
-				>
-					<View className='my-5'>
-						<FlatList
-							data={testCategories}
-							keyExtractor={item => item?.name}
-							horizontal
-							ListHeaderComponent={() => <ListHeader />}
-							ListFooterComponent={() => <ListFooter />}
-							showsHorizontalScrollIndicator={false}
-							renderItem={({ item }) => (
-								<CategoryListItem
-									name={item.name}
-									isActive={item.name === selectedCategory}
-									selectCategory={category => setSelectedCategory(category)}
-								/>
-							)}
-							className='overflow-visible'
-						/>
+				</Animated.View>
+			</View>
+		)
+	}
+
+	return (
+		<ImageBackground
+			source={require('../../../assets/images/bckg.png')}
+			resizeMode='cover'
+			className='flex-1'
+		>
+			<Animated.FlatList
+				data={[{ id: 1, name: 'kostil' }]}
+				keyExtractor={item => item?.name}
+				showsVerticalScrollIndicator={false}
+				ListHeaderComponent={<View>{renderRestourantHeader()}</View>}
+				scrollEventThrottle={16}
+				onScroll={Animated.event(
+					[
+						{
+							nativeEvent: { contentOffset: { y: scrollY } }
+						}
+					],
+					{ useNativeDriver: true }
+				)}
+				renderItem={({ item }) => (
+					<View
+						style={{
+							borderTopLeftRadius: 30,
+							borderTopRightRadius: 30
+						}}
+						className='w-full bg-mDark pt-10 -mt-10 z-10'
+					>
+						<View className='my-5'>
+							<FlatList
+								data={testCategories}
+								keyExtractor={item => item?.name}
+								horizontal
+								ListHeaderComponent={() => <ListHeader />}
+								ListFooterComponent={() => <ListFooter />}
+								showsHorizontalScrollIndicator={false}
+								renderItem={({ item }) => (
+									<CategoryListItem
+										name={item.name}
+										isActive={item.name === selectedCategory}
+										selectCategory={category => setSelectedCategory(category)}
+									/>
+								)}
+								className='overflow-visible'
+							/>
+						</View>
+						<View>
+							{testMenu
+								?.filter(food => food?.Category == selectedCategory)
+								?.map(item => (
+									<FoodCard key={item.Id} {...item} />
+								))}
+						</View>
 					</View>
-					<View>
-						{testMenu
-							?.filter(food => food?.Category == selectedCategory)
-							?.map(item => (
-								<FoodCard key={item.Id} {...item} />
-							))}
-					</View>
-				</View>
-			</ScrollView>
+				)}
+			/>
+			{renderHeaderBar()}
 			<StatusBar hidden />
 		</ImageBackground>
 	)

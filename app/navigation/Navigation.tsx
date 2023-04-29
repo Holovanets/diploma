@@ -7,6 +7,7 @@ import { FC, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import PrivateNavigation from './PrivateNavigation'
+import Tabs from './Tabs'
 import { GeneralAction } from '@/actions'
 import {
 	ForgotPasswordScreen,
@@ -62,7 +63,9 @@ const Navigation: FC<INavProps> = () => {
 						</>
 					) : (
 						<>
-							<Stack.Screen name='HomeScreen' component={HomeScreen} />
+							<Stack.Screen name='nav' component={Tabs} />
+
+							{/* <Stack.Screen name='HomeScreen' component={HomeScreen} /> */}
 							<Stack.Screen name='PlaceScreen' component={PlaceScreen} />
 						</>
 					)}
