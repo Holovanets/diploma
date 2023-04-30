@@ -5,11 +5,11 @@ import Generator from '@/utils/Generator'
 import { ApiConstants } from '@/constants'
 import { StorageService } from '@/providers'
 
-const getRestourants = async () => {
+const getBestRestourants = async () => {
 	console.log('Getting restourants | RestourantService')
 	try {
 		let restourantResponse = await axios.get(
-			`${ApiConstants.BACKEND_API.BASE_API_URL}${ApiConstants.BACKEND_API.GET_ALL_RESTIKI}`,
+			`${ApiConstants.BACKEND_API.BASE_API_URL}${ApiConstants.BACKEND_API.GET_BEST_RESTIKI}`,
 
 			{
 				headers: Generator.authHeader(StorageService.getToken()),
@@ -72,4 +72,4 @@ const getRestourantById = async (restID: number) => {
 	}
 }
 
-export default { getRestourants, getRestourantById }
+export default { getBestRestourants, getRestourantById }

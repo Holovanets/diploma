@@ -9,7 +9,8 @@ module.exports = {
 				accentRed: '#C1272D',
 				price: '#FEB536',
 				lightRed: '#FF5F5F',
-				mDark: '#0E1110'
+				mDark: '#0E1110',
+				lGreen: '#53E88B'
 			}
 		}
 	},

@@ -15,7 +15,7 @@ const BACKEND_API = {
 	LOGIN: '/auth/login',
 	REFRESH_TOKEN: '/auth/tokens/refresh',
 	GET_USER: '/users/me',
-	GET_ALL_RESTIKI: '/restiki/all',
+	GET_BEST_RESTIKI: '/restiki/best',
 	GET_RESTIK: '/restiki/get'
 }
 

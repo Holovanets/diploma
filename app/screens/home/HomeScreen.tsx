@@ -31,7 +31,7 @@ const HomeScreen: FC<ScreenProps> = ({ navigation }) => {
 
 	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
-			RestourantService.getRestourants().then(response => {
+			RestourantService.getBestRestourants().then(response => {
 				if (response?.status) {
 					setRestourants(response.data)
 					console.log(restourants)

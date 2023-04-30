@@ -1,11 +1,14 @@
 import { Octicons } from '@expo/vector-icons'
+import cn from 'clsx'
 import { StatusBar } from 'expo-status-bar'
+import LottieView from 'lottie-react-native'
 import { FC, useEffect, useRef, useState } from 'react'
 import {
 	Animated,
 	FlatList,
 	Image,
 	ImageBackground,
+	Pressable,
 	Text,
 	View
 } from 'react-native'
@@ -17,6 +20,7 @@ import {
 	BoxLocButton,
 	BoxSearchButton,
 	CategoryListItem,
+	CategoryRenderItem,
 	FoodCard,
 	HeaderImage,
 	InfoButton
@@ -25,7 +29,7 @@ import testCategories from './testCategories'
 import testData from './testData'
 import testMenu from './testMenu'
 import { GoBackButton } from '@/components'
-import { Colors } from '@/constants'
+import { Colors, Images } from '@/constants'
 import { RestourantService } from '@/services'
 import { ScreenProps } from '@/types'
 
@@ -37,46 +41,17 @@ interface IPlace extends ScreenProps {
 		}
 	}
 }
-
-const ListHeader = () => (
-	<View
-		style={{
-			flexDirection: 'row',
-			flex: 1,
-			width: 40,
-			justifyContent: 'flex-end'
-		}}
-	>
-		<View
-			style={{
-				backgroundColor: Colors.PRICE,
-				width: 20,
-				borderTopLeftRadius: 64,
-				borderBottomLeftRadius: 64
-			}}
-		/>
-	</View>
-)
-
-const ListFooter = () => (
-	<View
-		style={{
-			flexDirection: 'row',
-			flex: 1,
-			width: 40
-		}}
-	>
-		<View
-			style={{
-				backgroundColor: Colors.PRICE,
-				width: 20,
-				borderTopRightRadius: 64,
-				borderBottomRightRadius: 64
-			}}
-		/>
-	</View>
-)
-
+interface IRestInfo {
+	cover: string
+	creator: number
+	description: string
+	geolat: string
+	geolng: string
+	id: number
+	logo: string
+	name: string
+	poster: string
+}
 const HEADER_HEIGHT = 350
 
 const PlaceScreen: FC<IPlace> = ({
@@ -85,27 +60,27 @@ const PlaceScreen: FC<IPlace> = ({
 		params: { id, cover }
 	}
 }) => {
-	const [restInfo, setRestInfo] = useState(null)
-	const [restName, setRestName] = useState('Restik')
+	const [restInfo, setRestInfo] = useState<IRestInfo | null>(null)
 	const [selectedCategory, setSelectedCategory] = useState(
 		testCategories[0].name
 	)
 	const [isLoved, setIsLoved] = useState(false)
+	const [isOnline, setIsOnline] = useState(false)
+	const [isAcceess, setIsAccess] = useState(false)
 
 	const scrollY = useRef(new Animated.Value(0)).current
 
 	useEffect(() => {
 		RestourantService.getRestourantById(id).then(response => {
 			if (response?.status) {
-				console.log(restInfo)
-
-				setRestName(response?.data?.name)
 				setRestInfo(response?.data)
+				console.log(restInfo)
 			} else {
 				console.log(response.message)
 				console.log(`rest id ${id}`)
 			}
 		})
+		setIsOnline(true)
 	}, [])
 
 	function renderHeaderBar() {
@@ -148,7 +123,65 @@ const PlaceScreen: FC<IPlace> = ({
 			</View>
 		)
 	}
-
+	function renderRestourantInfo() {
+		return (
+			<Animated.View
+				className=' flex-1 w-full px-6 py-4  bg-mDark -mt-10'
+				style={{
+					borderTopLeftRadius: scrollY.interpolate({
+						inputRange: [HEADER_HEIGHT - 220, HEADER_HEIGHT - 170],
+						outputRange: [10, 0]
+					}),
+					borderTopRightRadius: scrollY.interpolate({
+						inputRange: [HEADER_HEIGHT - 220, HEADER_HEIGHT - 170],
+						outputRange: [10, 0]
+					})
+				}}
+			>
+				<View className='flex-row w-full justify-around my-4'>
+					<View
+						className={cn(
+							'h-8 w-8 overflow-hidden items-center justify-center align-center rounded-full',
+							isOnline ? 'bg-lGreen/40' : 'bg-accentRed/40'
+						)}
+					>
+						<LottieView
+							source={
+								isOnline
+									? Images.BEACON_LOADING_ANIM_ON
+									: Images.BEACON_LOADING_ANIM_OFF
+							}
+							autoPlay
+							loop
+						/>
+					</View>
+					<View
+						className={cn(
+							'h-8 w-8 overflow-hidden items-center justify-center align-center rounded-full',
+							isAcceess ? 'bg-lGreen/40' : 'bg-accentRed/40'
+						)}
+					>
+						<Octicons
+							name={isAcceess ? 'issue-closed' : 'issue-draft'}
+							size={20}
+							color={isAcceess ? '#0f0' : '#f00'}
+						/>
+					</View>
+					<View
+						className={cn(
+							'h-8 w-8 overflow-hidden items-center justify-center align-center rounded-full bg-price/40'
+						)}
+					>
+						<Octicons name={'zap'} size={20} color={Colors.PRICE} />
+					</View>
+				</View>
+				<Text className='text-white leading-6 font-light'>
+					{restInfo?.description}
+				</Text>
+				<Text className='mt-8 text-white text-4xl font-extrabold'>Меню</Text>
+			</Animated.View>
+		)
+	}
 	function renderRestourantHeader() {
 		return (
 			<View
@@ -208,7 +241,7 @@ const PlaceScreen: FC<IPlace> = ({
 							})
 						}}
 					>
-						{restName}
+						{restInfo?.name}
 					</Animated.Text>
 					<FlatList
 						showsHorizontalScrollIndicator={false}
@@ -223,6 +256,26 @@ const PlaceScreen: FC<IPlace> = ({
 		)
 	}
 
+	function renderCategories() {
+		return (
+			<View>
+				<FlatList
+					horizontal
+					showsHorizontalScrollIndicator={false}
+					data={testCategories}
+					keyExtractor={item => item.name}
+					renderItem={({ item }) => (
+						<CategoryRenderItem
+							name={item.name}
+							isActive={item.name === selectedCategory}
+							selectCategory={category => setSelectedCategory(category)}
+						/>
+					)}
+					className='mx-6 overflow-visible mt-2'
+				/>
+			</View>
+		)
+	}
 	return (
 		<ImageBackground
 			source={require('../../../assets/images/bckg.png')}
@@ -233,7 +286,13 @@ const PlaceScreen: FC<IPlace> = ({
 				data={[{ id: 1, name: 'kostil' }]}
 				keyExtractor={item => item?.name}
 				showsVerticalScrollIndicator={false}
-				ListHeaderComponent={<View>{renderRestourantHeader()}</View>}
+				ListHeaderComponent={
+					<View>
+						{renderRestourantHeader()}
+						{renderRestourantInfo()}
+						{renderCategories()}
+					</View>
+				}
 				scrollEventThrottle={16}
 				onScroll={Animated.event(
 					[
@@ -243,47 +302,7 @@ const PlaceScreen: FC<IPlace> = ({
 					],
 					{ useNativeDriver: true }
 				)}
-				renderItem={({ item }) => (
-					<Animated.View
-						style={{
-							borderTopLeftRadius: scrollY.interpolate({
-								inputRange: [HEADER_HEIGHT - 220, HEADER_HEIGHT - 170],
-								outputRange: [10, 0]
-							}),
-							borderTopRightRadius: scrollY.interpolate({
-								inputRange: [HEADER_HEIGHT - 220, HEADER_HEIGHT - 170],
-								outputRange: [10, 0]
-							})
-						}}
-						className='w-full bg-mDark pt-10 -mt-10 z-10'
-					>
-						<View className='my-5'>
-							<FlatList
-								data={testCategories}
-								keyExtractor={item => item?.name}
-								horizontal
-								ListHeaderComponent={() => <ListHeader />}
-								ListFooterComponent={() => <ListFooter />}
-								showsHorizontalScrollIndicator={false}
-								renderItem={({ item }) => (
-									<CategoryListItem
-										name={item.name}
-										isActive={item.name === selectedCategory}
-										selectCategory={category => setSelectedCategory(category)}
-									/>
-								)}
-								className='overflow-visible'
-							/>
-						</View>
-						<View>
-							{testMenu
-								?.filter(food => food?.Category == selectedCategory)
-								?.map(item => (
-									<FoodCard key={item.Id} {...item} />
-								))}
-						</View>
-					</Animated.View>
-				)}
+				renderItem={({ item }) => <View className='w-full pt-4'></View>}
 			/>
 			{renderHeaderBar()}
 			<StatusBar hidden />

@@ -10,6 +10,8 @@ const baza: {
 	WELCOME_PIC_2: require('@/assets/images/WELCOME_PIC_2.png'),
 	WELCOME_PIC_3: require('@/assets/images/WELCOME_PIC_3.png'),
 	LOADING_ANIM: require('@/assets/images/load.json'),
-	BEACON_LOADING_ANIM: require('@/assets/images/beacon_load.json')
+	BEACON_LOADING_ANIM: require('@/assets/images/beacon_load.json'),
+	BEACON_LOADING_ANIM_OFF: require('@/assets/images/beacon_load_offline.json'),
+	BEACON_LOADING_ANIM_ON: require('@/assets/images/beacon_load_online.json')
 }
 export default baza
