@@ -1,3 +1,4 @@
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import {
 	NavigationContainer,
 	useNavigationContainerRef
@@ -36,40 +37,48 @@ const Navigation: FC<INavProps> = () => {
 	return (
 		<>
 			<NavigationContainer>
-				<Stack.Navigator
-					screenOptions={{
-						headerShown: false
-					}}
-				>
-					{!token ? (
-						<>
-							{isFirstTimeUse && (
-								<Stack.Screen name='WelcomeScreen' component={WelcomeScreen} />
-							)}
-							<Stack.Screen name='SignInScreen' component={SignInScreen} />
-							<Stack.Screen
-								name='ForgotPasswordScreen'
-								component={ForgotPasswordScreen}
-							/>
-							<Stack.Screen name='RegisterScreen' component={RegisterScreen} />
-							<Stack.Screen
-								name='StepTwoRegScreen'
-								component={StepTwoRegScreen}
-							/>
-							<Stack.Screen
-								name='PhoneVerificationScreen'
-								component={PhoneVerificationScreen}
-							/>
-						</>
-					) : (
-						<>
-							<Stack.Screen name='nav' component={Tabs} />
+				<BottomSheetModalProvider>
+					<Stack.Navigator
+						screenOptions={{
+							headerShown: false
+						}}
+					>
+						{!token ? (
+							<>
+								{isFirstTimeUse && (
+									<Stack.Screen
+										name='WelcomeScreen'
+										component={WelcomeScreen}
+									/>
+								)}
+								<Stack.Screen name='SignInScreen' component={SignInScreen} />
+								<Stack.Screen
+									name='ForgotPasswordScreen'
+									component={ForgotPasswordScreen}
+								/>
+								<Stack.Screen
+									name='RegisterScreen'
+									component={RegisterScreen}
+								/>
+								<Stack.Screen
+									name='StepTwoRegScreen'
+									component={StepTwoRegScreen}
+								/>
+								<Stack.Screen
+									name='PhoneVerificationScreen'
+									component={PhoneVerificationScreen}
+								/>
+							</>
+						) : (
+							<>
+								<Stack.Screen name='nav' component={Tabs} />
 
-							{/* <Stack.Screen name='HomeScreen' component={HomeScreen} /> */}
-							<Stack.Screen name='PlaceScreen' component={PlaceScreen} />
-						</>
-					)}
-				</Stack.Navigator>
+								{/* <Stack.Screen name='HomeScreen' component={HomeScreen} /> */}
+								<Stack.Screen name='PlaceScreen' component={PlaceScreen} />
+							</>
+						)}
+					</Stack.Navigator>
+				</BottomSheetModalProvider>
 			</NavigationContainer>
 			{/* {user && currentRoute && <Text>{currentRoute} </Text>} */}
 		</>

@@ -1,4 +1,5 @@
-import { FC, useEffect, useState } from 'react'
+import { BottomSheetModal } from '@gorhom/bottom-sheet'
+import { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
 	FlatList,
 	Image,
@@ -10,7 +11,7 @@ import {
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
-import { RestourantCard, SearchBar, TopBar } from './components'
+import { FilterModal, RestourantCard, SearchBar, TopBar } from './components'
 import { Separator } from '@/components'
 import { RestourantService } from '@/services'
 import { ScreenProps } from '@/types'
@@ -28,6 +29,13 @@ const HomeScreen: FC<ScreenProps> = ({ navigation }) => {
 	const [notifNum, setNotifNum] = useState(0)
 	const [activeCategory, setActiveCategory] = useState()
 	const [restourants, setRestourants] = useState<any>(null)
+
+	const bottomSheetModalRef = useRef<BottomSheetModal>(null)
+
+	// callbacks
+	const openFilterModal = useCallback(() => {
+		bottomSheetModalRef.current?.present()
+	}, [])
 
 	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
@@ -54,7 +62,7 @@ const HomeScreen: FC<ScreenProps> = ({ navigation }) => {
 			<SafeAreaView className='pt-7 px-0 flex-1'>
 				<View className='px-7'>
 					<TopBar notificationCount={notifNum} />
-					<SearchBar />
+					<SearchBar openFilter={openFilterModal} />
 				</View>
 				{/* Special */}
 				<ScrollView className='my-2'>
@@ -104,6 +112,7 @@ const HomeScreen: FC<ScreenProps> = ({ navigation }) => {
 							</Pressable>
 						))}
 					</View>
+					<FilterModal reference={bottomSheetModalRef} />
 				</ScrollView>
 			</SafeAreaView>
 		</ImageBackground>

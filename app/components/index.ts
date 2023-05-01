@@ -1,5 +1,8 @@
 import { RestourantCard } from '../screens/home/components/restourantCard'
 
+import CloseButton from './CloseButton'
+import CustomBackdrop from './CustomBackdrop'
+import CustomBackground from './CustomBackground'
 import { CustomButton } from './customButton'
 import { CustomCheckBox } from './customCheckBox'
 import { CustomInput } from './customInput'
@@ -20,5 +23,8 @@ export {
 	FiltersButton,
 	PhoneInput,
 	RestourantCard,
-	TabIcon
+	TabIcon,
+	CustomBackdrop,
+	CustomBackground,
+	CloseButton
 }

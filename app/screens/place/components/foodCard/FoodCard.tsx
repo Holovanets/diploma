@@ -27,7 +27,7 @@ const FoodCard: FC<ICard> = ({
 
 	return (
 		<View
-			className='flex-1 flex-row my-2 items-center rounded-3xl bg-black mx-2 py-1 overflow-hidden'
+			className='flex-row my-2 items-center rounded-3xl bg-black mx-2 py-1 overflow-hidden'
 			// style={{ elevation: 2 }}
 		>
 			<Pressable>

@@ -12,6 +12,8 @@ const baza: {
 	LOADING_ANIM: require('@/assets/images/load.json'),
 	BEACON_LOADING_ANIM: require('@/assets/images/beacon_load.json'),
 	BEACON_LOADING_ANIM_OFF: require('@/assets/images/beacon_load_offline.json'),
-	BEACON_LOADING_ANIM_ON: require('@/assets/images/beacon_load_online.json')
+	BEACON_LOADING_ANIM_ON: require('@/assets/images/beacon_load_online.json'),
+	VILKA_ANIM: require('@/assets/images/vilka_red.json'),
+	LOAD_ANIM: require('@/assets/images/load.json')
 }
 export default baza

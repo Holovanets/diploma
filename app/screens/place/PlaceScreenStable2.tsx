@@ -52,6 +52,15 @@ interface IRestInfo {
 	name: string
 	poster: string
 }
+interface IDish {
+	Id: number
+	Category: string
+	Name: string
+	Cost: number
+	Discount: number
+	Link: string
+	Description: string
+}
 
 const HEADER_HEIGHT = 350
 
@@ -83,65 +92,8 @@ const PlaceScreen: FC<IPlace> = ({
 		})
 		setIsOnline(true)
 	}, [])
+	const [dishes, setDishes] = useState<IDish | null>(null)
 
-	function renderCategoryBar() {
-		return (
-			<Animated.View className='bg-mDark pt-2'>
-				<Animated.FlatList
-					horizontal
-					showsHorizontalScrollIndicator={false}
-					data={testCategories}
-					keyExtractor={item => item.name}
-					renderItem={({ item }) => (
-						<CategoryRenderItem
-							name={item.name}
-							isActive={item.name === selectedCategory}
-							selectCategory={category => setSelectedCategory(category)}
-						/>
-					)}
-					style={{
-						opacity: scrollY.interpolate({
-							inputRange: [HEADER_HEIGHT - 140, HEADER_HEIGHT - 135],
-							outputRange: [1, 0]
-						})
-					}}
-					className='overflow-visible bg-mDark'
-				/>
-			</Animated.View>
-		)
-	}
-	function renderHeaderCategories() {
-		return (
-			<Animated.View
-				style={{
-					position: 'absolute',
-					top: 90,
-					left: 0,
-					right: 0,
-					opacity: scrollY.interpolate({
-						inputRange: [HEADER_HEIGHT - 140, HEADER_HEIGHT - 120],
-						outputRange: [0, 1]
-					})
-				}}
-				className='justify-between items-center px-7 flex-row bg-mDark'
-			>
-				<FlatList
-					horizontal
-					showsHorizontalScrollIndicator={false}
-					data={testCategories}
-					keyExtractor={item => item.name}
-					renderItem={({ item }) => (
-						<CategoryRenderItem
-							name={item.name}
-							isActive={item.name === selectedCategory}
-							selectCategory={category => setSelectedCategory(category)}
-						/>
-					)}
-					className='overflow-visible mt-2'
-				/>
-			</Animated.View>
-		)
-	}
 	function renderHeaderBar() {
 		return (
 			<View
@@ -237,7 +189,7 @@ const PlaceScreen: FC<IPlace> = ({
 				<Text className='text-white leading-6 font-light'>
 					{restInfo?.description}
 				</Text>
-				{/* <Text className='mt-8 text-white text-4xl font-extrabold'>Меню</Text> */}
+				<Text className='mt-8 text-white text-4xl font-extrabold'>Меню</Text>
 			</Animated.View>
 		)
 	}
@@ -315,13 +267,44 @@ const PlaceScreen: FC<IPlace> = ({
 		)
 	}
 
+	function renderCategories() {
+		return (
+			<View>
+				<FlatList
+					horizontal
+					showsHorizontalScrollIndicator={false}
+					data={testCategories}
+					keyExtractor={item => item.name}
+					renderItem={({ item }) => (
+						<CategoryRenderItem
+							name={item.name}
+							isActive={item.name === selectedCategory}
+							selectCategory={category => setSelectedCategory(category)}
+						/>
+					)}
+					className='mx-6 overflow-visible mt-2'
+				/>
+			</View>
+		)
+	}
 	return (
 		<ImageBackground
 			source={require('../../../assets/images/bckg.png')}
 			resizeMode='cover'
 			className='flex-1'
 		>
-			<Animated.ScrollView
+			<Animated.FlatList
+				data={testMenu}
+				keyExtractor={item => item?.Name}
+				showsVerticalScrollIndicator={false}
+				ListHeaderComponent={
+					<View>
+						{renderRestourantHeader()}
+						{renderRestourantInfo()}
+						{renderCategories()}
+					</View>
+				}
+				scrollEventThrottle={16}
 				onScroll={Animated.event(
 					[
 						{
@@ -330,35 +313,8 @@ const PlaceScreen: FC<IPlace> = ({
 					],
 					{ useNativeDriver: true }
 				)}
-				className='bg-mDark'
-			>
-				{renderRestourantHeader()}
-				{renderRestourantInfo()}
-				{renderCategoryBar()}
-				<Text className='text-white text-4xl font-extrabold my-4 ml-6'>
-					{selectedCategory}
-				</Text>
-				{testMenu
-					?.filter(food => food?.Category == selectedCategory)
-					?.map(item => (
-						<FoodCard key={item.Id} {...item} />
-					))}
-				<View
-					className='bg-white/5 w-full h-20 justify-cener items-center align-center overflow-hidden mt-5'
-					style={{
-						borderTopRightRadius: 30,
-						borderTopLeftRadius: 30
-					}}
-				>
-					<LottieView
-						source={Images.LOAD_ANIM}
-						autoPlay
-						loop
-						style={{ height: 170, marginTop: -20 }}
-					/>
-				</View>
-			</Animated.ScrollView>
-			{renderHeaderCategories()}
+				renderItem={({ item }) => <FoodCard {...item} />}
+			/>
 			{renderHeaderBar()}
 			<StatusBar hidden />
 		</ImageBackground>

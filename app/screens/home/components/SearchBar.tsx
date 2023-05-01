@@ -4,7 +4,11 @@ import { Text, TextInput, View } from 'react-native'
 
 import { FiltersButton } from '@/components'
 
-const SearchBar: FC = () => {
+interface ISearch {
+	openFilter: () => void
+}
+
+const SearchBar: FC<ISearch> = ({ openFilter }) => {
 	return (
 		<View className='mt-5 flex-row justify-between items-center'>
 			<View className='flex-row flex-1 rounded-2xl w-14 h-14 items-center py-3 px-4 my-2 bg-white/10 z-0'>
@@ -18,11 +22,7 @@ const SearchBar: FC = () => {
 				/>
 			</View>
 			<View className='ml-2 flex-end'>
-				<FiltersButton
-					callback={() => {
-						console.log('Pressed')
-					}}
-				/>
+				<FiltersButton callback={openFilter} />
 			</View>
 		</View>
 	)
