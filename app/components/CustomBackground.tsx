@@ -1,5 +1,6 @@
 import { BottomSheetBackgroundProps } from '@gorhom/bottom-sheet'
 import React, { useMemo } from 'react'
+import { Image, ImageBackground } from 'react-native'
 import Animated, {
 	interpolateColor,
 	useAnimatedStyle
@@ -13,10 +14,12 @@ const CustomBackground: React.FC<BottomSheetBackgroundProps> = ({
 }) => {
 	//#region styles
 	const containerAnimatedStyle = useAnimatedStyle(() => ({
+		borderTopRightRadius: 12,
+		borderTopLeftRadius: 12,
 		// @ts-ignore
 		backgroundColor: interpolateColor(
 			animatedIndex.value,
-			[-1, 0],
+			[-0.5, 0],
 			['#000', Colors.M_DARK]
 		)
 	}))

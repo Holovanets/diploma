@@ -1,22 +1,31 @@
 import { FC } from 'react'
 import { Text, View } from 'react-native'
 
-const SliderHandle: FC = () => {
+interface IHandle {
+	count: number
+	max: number
+}
+
+const SliderHandle: FC<IHandle> = ({ count, max }) => {
 	return (
 		<View
-			className='rounded-full border-2 border-white justify-center items-center bg-mDark'
+			className='rounded-full border-white justify-center items-center bg-accentRed'
 			style={{
-				width: 24,
-				height: 24,
+				width: 48,
+				height: 48,
 				transform: [
 					{
-						translateX: -12
+						translateX: -24
 					},
-					{ translateY: -10 }
+					{ translateY: -20 }
 				]
 			}}
 		>
-			<View className='h-1 w-1 rounded-full bg-white' />
+			{/* <View className='h-1 w-1 rounded-full bg-white' /> */}
+			<Text className='text-white font-bold'>
+				{count === max ? `${count}+` : `${count}`}
+			</Text>
+			{/* <Text className='text-white font-bold'>{count}</Text> */}
 		</View>
 	)
 }
