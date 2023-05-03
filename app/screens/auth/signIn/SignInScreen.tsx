@@ -14,8 +14,9 @@ import { KeyboardAvoidingView } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { connect, useDispatch } from 'react-redux'
 
-import { Fields, SignTextLink, SocialButton } from './components'
 import GeneralAction from '@/actions/GeneralAction'
+
+import { Fields, SignTextLink, SocialButton } from './components'
 import { CustomButton } from '@/components'
 import { Images } from '@/constants'
 import { AuthService, StorageService } from '@/providers'
@@ -113,19 +114,16 @@ const SignInScreen: FC<ScreenProps> = ({ navigation, setToken }) => {
 							</SignTextLink>
 						</View>
 					</View>
-					<KeyboardAvoidingView
-						behavior={Platform.OS === 'ios' ? 'padding' : 'position'}
-					>
-						<View className='flex-end justify-center'>
-							<CustomButton
-								loading={isLoading}
-								onPress={handleSubmit(onSubmit)}
-								customClassName='my-4'
-							>
-								Увійти
-							</CustomButton>
-						</View>
-					</KeyboardAvoidingView>
+
+					<View className='flex-end justify-center'>
+						<CustomButton
+							loading={isLoading}
+							onPress={handleSubmit(onSubmit)}
+							customClassName='my-4'
+						>
+							Увійти
+						</CustomButton>
+					</View>
 				</SafeAreaView>
 			</TouchableWithoutFeedback>
 		</ImageBackground>

@@ -4,9 +4,10 @@ import { Pressable, Text, View } from 'react-native'
 
 interface IB {
 	callback: () => void
+	count: number
 }
 
-const BottomButton: FC<IB> = ({ callback }) => {
+const BottomButton: FC<IB> = ({ callback, count = 1 }) => {
 	return (
 		<View className='rounded-xl overflow-hidden'>
 			<Pressable
@@ -16,7 +17,7 @@ const BottomButton: FC<IB> = ({ callback }) => {
 			>
 				<Text className='text-white text-xl font-bold'>Додати</Text>
 				<View
-					className='w-10 h-10 items-center justify-center rounded-xl'
+					className='px-2 h-10 items-center justify-center align-center rounded-xl flex-row'
 					style={{
 						position: 'absolute',
 						right: 24,
@@ -25,6 +26,9 @@ const BottomButton: FC<IB> = ({ callback }) => {
 						backgroundColor: '#202020'
 					}}
 				>
+					<Text className='text-white text-lg font-bold mr-2 leading-5'>
+						{count}
+					</Text>
 					<Octicons name='arrow-right' color='white' size={24} />
 				</View>
 			</Pressable>

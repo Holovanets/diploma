@@ -59,7 +59,11 @@ const RegisterScreen: FC<ScreenProps> = ({ navigation }) => {
 				navigation.navigate('StepTwoRegScreen', { ...params })
 			} else {
 				console.log(response)
-				setErrorMessage(response?.message)
+				if (response?.message == 'User with this email exists') {
+					setErrorMessage('Такий email вже існує')
+				} else if (response?.message == 'User with this username exists') {
+					setErrorMessage("Таке ім'я користувача вже існує")
+				} else setErrorMessage("Таке ім'я користувача вже існує")
 			}
 		})
 	}
@@ -75,35 +79,33 @@ const RegisterScreen: FC<ScreenProps> = ({ navigation }) => {
 						<GoBackButton callback={navigation.goBack} />
 					</View>
 					<KeyboardAvoidingView
-						behavior={Platform.OS === 'ios' ? 'padding' : 'position'}
+						behavior={Platform.OS === 'ios' ? 'padding' : 'padding'}
 						className='flex-1 justify-center items-center '
 					>
 						<Fields {...{ control, handleSubmit, onSubmit }} />
-						<CheckBox
-							title='Не виходити з мого аккаунту'
-							checked={isAutoExit}
-							callback={() => {
-								setIsAutoExit(!isAutoExit)
-							}}
-						/>
-						<CheckBox
-							title='Cповіщуйте о новинах на e-mail'
-							checked={isSendingNews}
-							callback={() => {
-								setIsSendingNews(!isSendingNews)
-							}}
-						/>
+						<View className='self-start'>
+							<CheckBox
+								title='Не виходити з мого аккаунту'
+								checked={isAutoExit}
+								callback={() => {
+									setIsAutoExit(!isAutoExit)
+								}}
+							/>
+							<CheckBox
+								title='Cповіщуйте о новинах на e-mail'
+								checked={isSendingNews}
+								callback={() => {
+									setIsSendingNews(!isSendingNews)
+								}}
+							/>
+						</View>
 						{errorMessage && (
 							<Text className='text-accentRed text-base mt-3 ml-2'>
 								{errorMessage}
 							</Text>
 						)}
 					</KeyboardAvoidingView>
-					<KeyboardAvoidingView
-						// style={{ marginBottom: isFocused ? 10 : 10 }}
-						behavior={Platform.OS === 'ios' ? 'padding' : 'position'}
-						className='flex-end justify-center'
-					>
+					<View className='flex-end justify-center'>
 						<CustomButton
 							onPress={handleSubmit(onSubmit)}
 							// onPress={() => {
@@ -114,7 +116,7 @@ const RegisterScreen: FC<ScreenProps> = ({ navigation }) => {
 						>
 							Далі
 						</CustomButton>
-					</KeyboardAvoidingView>
+					</View>
 				</SafeAreaView>
 			</TouchableWithoutFeedback>
 		</ImageBackground>

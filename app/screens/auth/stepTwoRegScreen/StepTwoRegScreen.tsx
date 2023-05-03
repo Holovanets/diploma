@@ -85,11 +85,7 @@ const StepTwoRegScreen: FC<StepTwoRegScreenProps> = ({
 						</View>
 					)}
 
-					<KeyboardAvoidingView
-						// style={{ marginBottom: isFocused ? 10 : 10 }}
-						behavior={Platform.OS === 'ios' ? 'padding' : 'padding'}
-						className='flex-1 items-center'
-					>
+					<View className='flex-1 items-center'>
 						<Fields
 							{...{
 								control,
@@ -105,13 +101,9 @@ const StepTwoRegScreen: FC<StepTwoRegScreenProps> = ({
 								setIsFocus(false)
 							}}
 						/>
-					</KeyboardAvoidingView>
+					</View>
 
-					<KeyboardAvoidingView
-						// style={{ marginBottom: isFocused ? 10 : 10 }}
-						behavior={Platform.OS === 'ios' ? 'padding' : 'position'}
-						className='justify-center items-center  flex-end'
-					>
+					<View className='justify-center items-center  flex-end'>
 						<CustomButton
 							// onPress={() => {
 							// 	navigation.navigate('PhoneVerificationScreen')
@@ -122,7 +114,7 @@ const StepTwoRegScreen: FC<StepTwoRegScreenProps> = ({
 						>
 							Далі
 						</CustomButton>
-					</KeyboardAvoidingView>
+					</View>
 				</SafeAreaView>
 			</TouchableWithoutFeedback>
 		</ImageBackground>

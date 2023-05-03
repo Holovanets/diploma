@@ -1,27 +1,28 @@
-import { Feather } from '@expo/vector-icons'
+import { Feather, Ionicons } from '@expo/vector-icons'
 import { FC } from 'react'
-import { Text, View } from 'react-native'
+import { Animated, Text, TouchableOpacity, View } from 'react-native'
 
 import { Colors } from '@/constants'
 
 interface ITab {
 	focused: boolean
-	icon: keyof typeof Feather.glyphMap
+	icon: keyof typeof Ionicons.glyphMap
+	icon_filled: keyof typeof Ionicons.glyphMap
 }
 
-const TabIcon: FC<ITab> = ({ focused, icon }) => {
+const TabIcon: FC<ITab> = ({ focused, icon, icon_filled }) => {
 	return (
 		<View
-			className='items-center content-center justify-center'
+			className='items-center content-center justify-center rounded-full'
 			style={{ height: 48, width: 40 }}
 		>
-			<Feather
-				name={icon}
+			<Ionicons
+				name={focused ? icon_filled : icon}
 				size={24}
-				color={focused ? Colors.PRIMARY_RED : 'white'}
+				color={focused ? Colors.PRIMARY_RED : '#aaa'}
 			/>
 			{focused && (
-				<View
+				<Animated.View
 					style={{
 						position: 'absolute',
 						left: 0,

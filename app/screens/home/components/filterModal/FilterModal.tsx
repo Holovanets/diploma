@@ -11,11 +11,13 @@ import {
 	View
 } from 'react-native'
 
-import { deliveryTypes } from '../data'
+import { deliveryTypes, restTypes } from '../data'
 
 import {
 	BottomButton,
 	CategoryButton,
+	DeliveryType,
+	PlaceType,
 	RangeSelector,
 	SliderHandle
 } from './atoms'
@@ -33,6 +35,10 @@ const FilterModal: FC<IModal> = ({ reference }) => {
 	const [maxRange, setMaxRange] = useState(50)
 
 	const handleClosePress = () => reference?.current?.close()
+	const [selectedDevType, setSelectedDevType] = useState(deliveryTypes[0])
+	const [selectedPlaceType, setSelectedPlaceType] = useState([])
+	// const [allFilters, setAllFilters] = useState([selectedDevType])
+	const allFilters = [selectedDevType, ...selectedPlaceType]
 	return (
 		<BottomSheetModal
 			backdropComponent={props => <CustomBackdrop {...props} />}
@@ -71,20 +77,25 @@ const FilterModal: FC<IModal> = ({ reference }) => {
 							onEndRangeChange={setMaxRange}
 						/>
 					</View>
-					<View className='my-4'>
-						<Text className='text-white font-bold text-2xl'>Я хочу</Text>
-						<View className='flex-row flex-wrap mt-3'>
-							{deliveryTypes.map((text, i) => {
-								const isSelected = i === 0
-								return (
-									<CategoryButton {...{ isSelected }} text={text} key={i} />
-								)
-							})}
-						</View>
-					</View>
+					<DeliveryType
+						{...{ deliveryTypes, selectedDevType }}
+						setSelectedDevType={selectedDevType =>
+							setSelectedDevType(selectedDevType)
+						}
+					/>
+					<PlaceType
+						{...{ restTypes, selectedPlaceType }}
+						setSelectedPlaceType={selectedPlaceType =>
+							//@ts-ignore
+							setSelectedPlaceType(selectedPlaceType)
+						}
+					/>
 				</View>
 			</BottomSheetScrollView>
-			<BottomButton callback={handleClosePress} />
+			<BottomButton
+				callback={() => console.log(allFilters)}
+				count={allFilters.length + 1}
+			/>
 		</BottomSheetModal>
 	)
 }
