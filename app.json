@@ -1,10 +1,10 @@
 {
 	"expo": {
-		"name": "cityfood",
+		"name": "CityFood",
 		"slug": "cityfood",
 		"version": "1.0.0",
 		"orientation": "portrait",
-		"icon": "./assets/splashLogo.png",
+		"icon": "./assets/main.png",
 		"userInterfaceStyle": "dark",
 		"splash": {
 			"image": "./assets/welcome.png",
@@ -13,7 +13,6 @@
 		},
 
 		"androidNavigationBar": {
-			"visible": true,
 			"barStyle": "dark-content",
 			"backgroundColor": "#0E1110"
 		},
@@ -28,7 +27,8 @@
 		"android": {
 			"softwareKeyboardLayoutMode": "pan",
 			"adaptiveIcon": {
-				"foregroundImage": "./assets/splashLogo.png",
+				"foregroundImage": "./assets/main.png",
+
 				"backgroundColor": "#C1272D"
 			},
 			"package": "com.golovanets.cityfood"

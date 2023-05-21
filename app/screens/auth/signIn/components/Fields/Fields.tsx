@@ -31,11 +31,7 @@ const Fields: FC<FieldsProps> = ({ control, onSubmit, handleSubmit }) => {
 					passwordRef.current?.focus()
 				}}
 				rules={{
-					required: "Обов'язково введіть email",
-					pattern: {
-						value: validEmail,
-						message: 'E-mail неправильний'
-					}
+					required: "Обов'язково введіть email"
 				}}
 			/>
 			<CustomInput
@@ -51,12 +47,7 @@ const Fields: FC<FieldsProps> = ({ control, onSubmit, handleSubmit }) => {
 				reference={passwordRef}
 				onSubmitEditing={handleSubmit(onSubmit)}
 				rules={{
-					required: "Обов'язково введіть пароль",
-					pattern: {
-						value: validPassword,
-						message:
-							'Пароль повинен мати хоча б одну літеру, цифру та спеціальний символ'
-					}
+					required: "Обов'язково введіть пароль"
 				}}
 			/>
 		</View>

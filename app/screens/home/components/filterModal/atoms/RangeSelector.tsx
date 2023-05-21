@@ -14,46 +14,22 @@ import Animated, {
 import SliderHandle from './SliderHandle'
 
 interface ISelector {
-	minRange: number
 	maxRange: number
 	MAX_RANGE: number
 	MIN_RANGE: number
-	onStartRangeChange: (value: number) => void
 	onEndRangeChange: (value: number) => void
 }
 
 const RangeSelector: FC<ISelector> = ({
-	minRange,
 	maxRange,
 	MAX_RANGE,
 	MIN_RANGE,
-	onStartRangeChange,
 	onEndRangeChange
 }) => {
 	const [barWidth, setBarWidth] = useState(0)
 
-	const leftHandlePos = useSharedValue(0)
 	const rightHandlePos = useSharedValue(0)
 
-	const startHandleGesture = useAnimatedGestureHandler<
-		PanGestureHandlerGestureEvent,
-		{
-			prevPos: number
-		}
-	>({
-		onStart(event, context) {
-			context.prevPos = leftHandlePos.value
-		},
-		onActive(event, context) {
-			leftHandlePos.value = Math.min(
-				rightHandlePos.value - 48,
-				Math.max(0, context.prevPos + event.translationX)
-			)
-			runOnJS(onStartRangeChange)(
-				Math.round((MAX_RANGE / barWidth) * leftHandlePos.value)
-			)
-		}
-	})
 	const endHandleGesture = useAnimatedGestureHandler<
 		PanGestureHandlerGestureEvent,
 		{
@@ -66,33 +42,29 @@ const RangeSelector: FC<ISelector> = ({
 		onActive(event, context) {
 			rightHandlePos.value = Math.min(
 				barWidth,
-				Math.max(leftHandlePos.value + 48, context.prevPos + event.translationX)
+				Math.max(MIN_RANGE, context.prevPos + event.translationX)
 			)
 			runOnJS(onEndRangeChange)(
 				Math.round((MAX_RANGE / barWidth) * rightHandlePos.value)
 			)
 		}
 	})
-	const leftHandleStyle = useAnimatedStyle(() => ({
-		transform: [{ translateX: leftHandlePos.value }]
-	}))
 	const rightHandleStyle = useAnimatedStyle(() => ({
 		transform: [{ translateX: rightHandlePos.value }]
 	}))
 
 	const barHighlightStyle = useAnimatedStyle(() => ({
-		left: leftHandlePos.value,
+		left: MIN_RANGE,
 		right: barWidth - rightHandlePos.value
 	}))
 
 	useEffect(() => {
 		if (barWidth === 0) return
-		leftHandlePos.value = (minRange * barWidth) / MAX_RANGE
 		rightHandlePos.value = (maxRange * barWidth) / MAX_RANGE
 	}, [barWidth])
 	return (
 		<View>
-			<Text className='text-white font-bold text-2xl mb-4'>Відстань (км)</Text>
+			<Text className='text-white font-bold text-2xl mb-4'>Радіус (км)</Text>
 			<View
 				className='h-3  bg-accentRed/10 mt-4 rounded-full mx-2'
 				style={{ position: 'relative' }}
@@ -107,20 +79,8 @@ const RangeSelector: FC<ISelector> = ({
 							position: 'absolute'
 						}
 					]}
-					className='bg-accentRed h-3'
+					className='bg-accentRed h-3 rounded-full'
 				/>
-				<PanGestureHandler onGestureEvent={startHandleGesture}>
-					<Animated.View
-						style={[
-							leftHandleStyle,
-							{
-								position: 'absolute'
-							}
-						]}
-					>
-						<SliderHandle count={minRange} max={MAX_RANGE} />
-					</Animated.View>
-				</PanGestureHandler>
 				<PanGestureHandler onGestureEvent={endHandleGesture}>
 					<Animated.View
 						style={[
@@ -134,11 +94,6 @@ const RangeSelector: FC<ISelector> = ({
 					</Animated.View>
 				</PanGestureHandler>
 			</View>
-
-			{/* <View className='flex-row justify-between items-center mt-5'>
-				<Text className='text-white '>{MIN_RANGE}</Text>
-				<Text className='text-white '>{MAX_RANGE}</Text>
-			</View> */}
 		</View>
 	)
 }

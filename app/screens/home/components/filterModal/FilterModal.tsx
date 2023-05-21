@@ -28,11 +28,10 @@ interface IModal {
 	reference: RefObject<BottomSheetModal>
 }
 const MIN_RANGE = 0
-const MAX_RANGE = 99
+const MAX_RANGE = 50
 
 const FilterModal: FC<IModal> = ({ reference }) => {
-	const [minRange, setMinRange] = useState(20)
-	const [maxRange, setMaxRange] = useState(50)
+	const [maxRange, setMaxRange] = useState(10)
 
 	const handleClosePress = () => reference?.current?.close()
 	const [selectedDevType, setSelectedDevType] = useState(deliveryTypes[0])
@@ -72,8 +71,7 @@ const FilterModal: FC<IModal> = ({ reference }) => {
 					</View>
 					<View className='my-4'>
 						<RangeSelector
-							{...{ MIN_RANGE, MAX_RANGE, maxRange, minRange }}
-							onStartRangeChange={setMinRange}
+							{...{ MIN_RANGE, MAX_RANGE, maxRange }}
 							onEndRangeChange={setMaxRange}
 						/>
 					</View>

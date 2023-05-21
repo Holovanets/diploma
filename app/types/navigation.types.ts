@@ -11,6 +11,8 @@ export type TypeRootStackParamList = {
 	StepTwoRegScreen: undefined
 	PhoneVerificationScreen: undefined
 	ForgotPasswordScreen: undefined
+	NotificationsScreen: undefined
+	SettingsScreen: undefined
 }
 
 export interface IRoute {

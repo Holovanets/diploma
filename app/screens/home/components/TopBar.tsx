@@ -3,12 +3,13 @@ import { FC } from 'react'
 import { Text, View } from 'react-native'
 
 import { NotificationButton } from '@/components'
+import { ScreenProps } from '@/types'
 
-interface ITopBar {
+interface ITopBar extends ScreenProps {
 	notificationCount: number
 }
 
-const TopBar: FC<ITopBar> = ({ notificationCount }) => {
+const TopBar: FC<ITopBar> = ({ notificationCount, navigation }) => {
 	return (
 		<View className='flex-row items-center justify-between'>
 			<View className='flex-col h-full content-between'>
@@ -17,17 +18,17 @@ const TopBar: FC<ITopBar> = ({ notificationCount }) => {
 					<Octicons className='' name='chevron-down' size={20} color='white' />
 				</View>
 				<View className='flex-row items-center mt-3'>
-					<Text className='text-white text-sm font-normal mr-2'>Адреса</Text>
-					<Text className='text-price text-sm font-normal mr-2'>
+					<Octicons name='location' size={16} color='white' />
+					<Text className='text-price text-sm font-normal mx-2'>
 						Моє місцезнаходження
 					</Text>
-					<Octicons className='' name='chevron-down' size={20} color='white' />
+					<Octicons name='chevron-down' size={20} color='white' />
 				</View>
 			</View>
 			<View className='flex-end'>
 				<NotificationButton
 					callback={() => {
-						console.log('pressed')
+						navigation.navigate('NotificationsScreen')
 					}}
 					notificationsNumber={notificationCount}
 				/>

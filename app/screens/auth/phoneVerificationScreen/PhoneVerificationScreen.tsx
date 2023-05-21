@@ -9,10 +9,13 @@ import {
 	View
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { connect, useDispatch } from 'react-redux'
+
+import GeneralAction from '@/actions/GeneralAction'
 
 import { Fields } from './components'
 import { CustomButton, GoBackButton } from '@/components'
-import { AuthService } from '@/providers'
+import { AuthService, StorageService } from '@/providers'
 import { IFinalFields, ScreenProps } from '@/types'
 
 interface PhoneVerificationScreenProps extends ScreenProps {
@@ -49,8 +52,8 @@ const PhoneVerificationScreen: FC<PhoneVerificationScreenProps> = ({
 		name,
 		surname
 	}
-	const [otp, setOtp] = useState({ 1: '', 2: '', 3: '', 4: '' })
-
+	const [otp, setOtp] = useState({ 1: '1', 2: '1', 3: '1', 4: '1' })
+	const dispatch = useDispatch()
 	const reg = (data: IFinalFields) => {
 		// console.log(data)
 		setIsLoading(true)
@@ -58,6 +61,18 @@ const PhoneVerificationScreen: FC<PhoneVerificationScreenProps> = ({
 			// console.log(response)
 			if (!response?.status) {
 				setErrorMessage(response?.message)
+			} else {
+				console.log('good')
+				StorageService.setToken(response?.tokens?.auth_token).then(() => {
+					dispatch(GeneralAction.setToken(response?.tokens?.auth_token))
+				})
+				StorageService.setRefreshToken(response?.tokens?.refresh_token).then(
+					() => {
+						dispatch(
+							GeneralAction.setRefreshToken(response?.tokens?.refresh_token)
+						)
+					}
+				)
 			}
 			setIsLoading(false)
 		})
@@ -76,7 +91,7 @@ const PhoneVerificationScreen: FC<PhoneVerificationScreenProps> = ({
 					</View>
 					<View className='flex-start'>
 						<Text className='text-white text-2xl font-bold my-4'>
-							Впиши 4-х значний код із повідомлення
+							Впиши 4-х значний код із повідомлення (Просто натисни до закладів)
 						</Text>
 						<Text className='text-white text-base font-light mb-6'>
 							Код надійшов на {phoneNumber}.
@@ -117,4 +132,12 @@ const PhoneVerificationScreen: FC<PhoneVerificationScreenProps> = ({
 	)
 }
 
-export default PhoneVerificationScreen
+const mapDispatchProps = (dispatch: any) => {
+	return {
+		setToken: (token: string) => dispatch(GeneralAction.setToken(token)),
+		setRefreshToken: (refreshToken: string) =>
+			dispatch(GeneralAction.setRefreshToken(refreshToken))
+	}
+}
+
+export default connect(null, mapDispatchProps)(PhoneVerificationScreen)

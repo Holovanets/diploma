@@ -5,7 +5,7 @@ import { Pressable, View } from 'react-native'
 
 import { TabButton, TabIcon } from '@/components'
 import { Colors } from '@/constants'
-import { HomeScreen } from '@/screens'
+import { HomeScreen, NotificationsScreen, SettingsScreen } from '@/screens'
 
 const Tab = createBottomTabNavigator()
 
@@ -47,8 +47,8 @@ const Tabs: FC = () => {
 						/>
 					)
 				}}
-				name='User'
-				component={HomeScreen}
+				name='SettingsScreen'
+				component={SettingsScreen}
 			/>
 			<Tab.Screen
 				options={{
@@ -73,8 +73,8 @@ const Tabs: FC = () => {
 						/>
 					)
 				}}
-				name='Messages'
-				component={HomeScreen}
+				name='NotificationsScreen'
+				component={NotificationsScreen}
 			/>
 		</Tab.Navigator>
 	)

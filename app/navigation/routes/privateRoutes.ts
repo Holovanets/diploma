@@ -1,4 +1,9 @@
-import { HomeScreen, PlaceScreen } from '@/screens'
+import {
+	HomeScreen,
+	NotificationsScreen,
+	PlaceScreen,
+	SettingsScreen
+} from '@/screens'
 import { IRoute } from '@/types'
 
 export const privateRoutes: IRoute[] = [
@@ -9,5 +14,13 @@ export const privateRoutes: IRoute[] = [
 	{
 		name: 'PlaceScreen',
 		component: PlaceScreen
+	},
+	{
+		name: 'NotificationsScreen',
+		component: NotificationsScreen
+	},
+	{
+		name: 'SettingsScreen',
+		component: SettingsScreen
 	}
 ]

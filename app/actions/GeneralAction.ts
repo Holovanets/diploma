@@ -1,3 +1,5 @@
+import AsyncStorage from '@react-native-async-storage/async-storage'
+
 import GeneralActionTypes from './GeneralActionTypes'
 import { AuthService, StorageService, UserService } from '@/providers'
 
@@ -8,12 +10,15 @@ const setIsAppLoading = (isAppLoading: boolean) => {
 	}
 }
 const setToken = (token: string) => {
+	console.log('auth token set to', token, 'actions -> GeneralAction')
+
 	return {
 		type: GeneralActionTypes.types.SET_TOKEN,
 		payload: token
 	}
 }
 const setRefreshToken = (refToken: string) => {
+	console.log('refresh token set to', refToken, 'actions -> GeneralAction')
 	return {
 		type: GeneralActionTypes.types.SET_REFRESH_TOKEN,
 		payload: refToken
@@ -26,8 +31,19 @@ const setIsFirstTimeUse = () => {
 		payload: false
 	}
 }
+const setUserData = (userData: any) => {
+	console.log('set UserData')
+	return {
+		type: GeneralActionTypes.types.SET_USER_DATA,
+		payload: userData
+	}
+}
 
 const appStart = () => {
+	StorageService.getToken().then(res => console.log('auth token = ', res))
+	StorageService.getRefreshToken().then(res =>
+		console.log('refresh token = ', res)
+	)
 	return (dispatch: any, getState: any) => {
 		StorageService?.getFirstTimeUse().then(isFirstTimeUse => {
 			dispatch({
@@ -42,9 +58,8 @@ const appStart = () => {
 					payload: token
 				})
 				UserService?.getUserData().then(userResponse => {
-					console.log(`userResponse: `)
-					console.log(userResponse)
 					if (userResponse?.status) {
+						console.log(userResponse?.status)
 						dispatch({
 							type: GeneralActionTypes.types.SET_USER_DATA,
 							payload: userResponse?.data
@@ -55,7 +70,7 @@ const appStart = () => {
 							type: GeneralActionTypes.types.SET_IS_APP_LOADING,
 							payload: false
 						})
-					} else if (userResponse?.message === 'TokenExpiredError') {
+					} else if (!userResponse?.status) {
 						console.log('refreshing token')
 
 						AuthService?.refreshToken().then(tokenResponse => {
@@ -105,5 +120,6 @@ export default {
 	setToken,
 	appStart,
 	setIsFirstTimeUse,
-	setRefreshToken
+	setRefreshToken,
+	setUserData
 }

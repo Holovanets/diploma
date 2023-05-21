@@ -14,7 +14,7 @@ const getBestRestourants = async () => {
 			{
 				headers: Generator.authHeader(StorageService.getToken()),
 				params: {
-					limit: 3
+					limit: 5
 				}
 			}
 		)

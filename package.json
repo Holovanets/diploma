@@ -27,7 +27,7 @@
     "clsx": "^1.2.1",
     "expo": "^48.0.7",
     "expo-linear-gradient": "~12.1.2",
-    "expo-splash-screen": "~0.18.1",
+    "expo-splash-screen": "~0.18.2",
     "expo-status-bar": "~1.4.4",
     "lottie-react-native": "5.1.4",
     "nativewind": "^2.0.11",
@@ -35,7 +35,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.42.0",
-    "react-native": "0.71.3",
+    "react-native": "0.71.7",
     "react-native-gesture-handler": "~2.9.0",
     "react-native-image-header-scroll-view": "^1.0.0",
     "react-native-linear-gradient": "^2.6.2",
@@ -49,7 +49,8 @@
     "redux": "^4.2.1",
     "redux-thunk": "^2.4.2",
     "tailwindcss": "^3.2.4",
-    "expo-navigation-bar": "~2.1.1"
+    "expo-navigation-bar": "~2.1.1",
+    "expo-updates": "~0.16.4"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
@@ -59,7 +60,7 @@
     "typescript": "^4.6.3"
   },
   "projectConfig": {
-    "backendApiBaseUrl": "http://176.57.68.130:3023"
+    "backendApiBaseUrl": "http://176.57.68.130:80"
   },
   "private": true
 }

@@ -11,30 +11,33 @@ import {
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
-import { FilterModal, RestourantCard, SearchBar, TopBar } from './components'
+import {
+	CategoryButton,
+	FilterModal,
+	RestourantCard,
+	SearchBar,
+	TopBar
+} from './components'
+import { categories } from './testData'
 import { Separator } from '@/components'
 import { RestourantService } from '@/services'
 import { ScreenProps } from '@/types'
 import { Display } from '@/utils'
 
-const categories = [
-	{ name: 'Недавние' },
-	{ name: 'Любимые' },
-	{ name: 'Популярные' },
-	{ name: 'Лучшие' },
-	{ name: 'Трендовые' }
-]
-
 const HomeScreen: FC<ScreenProps> = ({ navigation }) => {
 	const [notifNum, setNotifNum] = useState(0)
-	const [activeCategory, setActiveCategory] = useState()
 	const [restourants, setRestourants] = useState<any>(null)
+	const [selectedCategory, setSelectedCategory] = useState(categories[0].name)
 
-	const bottomSheetModalRef = useRef<BottomSheetModal>(null)
+	const filterModalRef = useRef<BottomSheetModal>(null)
+	const deliveryChooseModalRef = useRef<BottomSheetModal>(null)
 
 	// callbacks
 	const openFilterModal = useCallback(() => {
-		bottomSheetModalRef.current?.present()
+		filterModalRef.current?.present()
+	}, [])
+	const openDeliveryChooseModal = useCallback(() => {
+		deliveryChooseModalRef.current?.present()
 	}, [])
 
 	useEffect(() => {
@@ -42,9 +45,9 @@ const HomeScreen: FC<ScreenProps> = ({ navigation }) => {
 			RestourantService.getBestRestourants().then(response => {
 				if (response?.status) {
 					setRestourants(response.data)
-					console.log(restourants)
+					// console.log(restourants)
 				} else {
-					console.log(response.message)
+					// console.log(response.message)
 				}
 			})
 		})
@@ -59,14 +62,18 @@ const HomeScreen: FC<ScreenProps> = ({ navigation }) => {
 			resizeMode='cover'
 			className='flex-1'
 		>
-			<SafeAreaView className='pt-7 px-0 flex-1'>
-				<View className='px-7'>
-					<TopBar notificationCount={notifNum} />
-					<SearchBar openFilter={openFilterModal} />
-				</View>
-				{/* Special */}
-				<ScrollView className='my-2'>
+			<SafeAreaView className='px-0 flex-1'>
+				<ScrollView
+					className='pt-7'
+					style={{ marginBottom: 48 }}
+					showsVerticalScrollIndicator={false}
+				>
 					<View className='px-7'>
+						<TopBar {...{ navigation }} notificationCount={notifNum} />
+						<SearchBar openFilter={openFilterModal} />
+					</View>
+					{/* Special */}
+					<View className='px-7 my-2'>
 						<Image
 							source={require('../../assets/images/special.png')}
 							className='w-full h-36 rounded-2xl'
@@ -105,14 +112,24 @@ const HomeScreen: FC<ScreenProps> = ({ navigation }) => {
 						/>
 					</View>
 
-					<View className='flex-row'>
+					<ScrollView
+						horizontal
+						showsHorizontalScrollIndicator={false}
+						className='flex-row mt-6'
+					>
+						<View className='w-7'></View>
 						{categories.map(item => (
-							<Pressable key={item.name}>
-								<Text key={item.name}>{item.name}</Text>
-							</Pressable>
+							<CategoryButton
+								key={item.name}
+								title={item.name}
+								isActive={item.name === selectedCategory}
+								selectCategory={category => setSelectedCategory(category)}
+							/>
 						))}
-					</View>
-					<FilterModal reference={bottomSheetModalRef} />
+					</ScrollView>
+					<View className='h-20'></View>
+					<FilterModal reference={filterModalRef} />
+					<FilterModal reference={deliveryChooseModalRef} />
 				</ScrollView>
 			</SafeAreaView>
 		</ImageBackground>

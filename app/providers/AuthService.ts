@@ -88,6 +88,8 @@ const login = async (user: IAuthFormData) => {
 	}
 }
 const refreshToken = async () => {
+	console.log('Токен рефрешнулся | providers -> AuthService')
+
 	try {
 		let tokenResponse = await AuthRequest.post(
 			ApiConstants.BACKEND_API.REFRESH_TOKEN,

@@ -4,13 +4,14 @@ import {
 	Image,
 	ImageBackground,
 	Keyboard,
+	KeyboardAvoidingView,
 	Platform,
+	ScrollView,
 	Text,
 	TouchableWithoutFeedback,
 	View,
 	useWindowDimensions
 } from 'react-native'
-import { KeyboardAvoidingView } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { connect, useDispatch } from 'react-redux'
 
@@ -66,7 +67,7 @@ const SignInScreen: FC<ScreenProps> = ({ navigation, setToken }) => {
 		>
 			<TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
 				<SafeAreaView className=' justify-center items-center flex-1 py-7'>
-					<View className='items-center content-center justify-center flex-1 '>
+					<ScrollView className=' flex-1 '>
 						<Image
 							source={require('../../../../assets/images/logo.png')}
 							resizeMode='contain'
@@ -113,7 +114,7 @@ const SignInScreen: FC<ScreenProps> = ({ navigation, setToken }) => {
 								Забув пароль :(
 							</SignTextLink>
 						</View>
-					</View>
+					</ScrollView>
 
 					<View className='flex-end justify-center'>
 						<CustomButton

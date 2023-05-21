@@ -6,8 +6,10 @@ import {
 	StepTwoRegScreen
 } from './auth'
 import HomeScreen from './home/HomeScreen'
+import { NotificationsScreen } from './notifications'
 import { WelcomeScreen } from './onboarding/'
 import PlaceScreen from './place/PlaceScreen'
+import { SettingsScreen } from './settings'
 
 export {
 	PlaceScreen,
@@ -17,5 +19,7 @@ export {
 	RegisterScreen,
 	StepTwoRegScreen,
 	SignInScreen,
-	PhoneVerificationScreen
+	PhoneVerificationScreen,
+	NotificationsScreen,
+	SettingsScreen
 }

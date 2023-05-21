@@ -1,5 +1,5 @@
 import { Octicons } from '@expo/vector-icons'
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { Image, Pressable, Text, View } from 'react-native'
 
 import Distance from './Distance'
@@ -30,6 +30,7 @@ const RestourantCard: FC<ICard> = ({
 	navigate,
 	navigation
 }) => {
+	const [isLiked, setIsLiked] = useState(false)
 	return (
 		<View className='rounded-2xl overflow-hidden w-80'>
 			<Pressable
@@ -37,7 +38,46 @@ const RestourantCard: FC<ICard> = ({
 				className='w-80 h-64 bg-black/50 rounded-2xl overflow-hidden'
 				android_ripple={{ color: 'rgba(255,255,255,0.3)' }}
 			>
-				<Image source={{ uri: poster }} className='w-full h-40 rounded-2xl' />
+				<View>
+					<Image source={{ uri: poster }} className='w-full h-40 rounded-2xl' />
+					<View
+						className='flex-row px-1 py-1'
+						style={{
+							position: 'absolute',
+							right: 0,
+							bottom: 0,
+							borderTopRightRadius: 0,
+							borderBottomLeftRadius: 0
+						}}
+					>
+						<Distance />
+						<Time />
+					</View>
+					{/* <View
+						className='mx-3 my-3 px-2.5 py-2.5 bg-accentRed/50 rounded-full'
+						style={{
+							position: 'absolute',
+							right: 0
+						}}
+					>
+					</View> */}
+					<View
+						className='rounded-full justify-center overflow-hidden bg-accentRed/30 mx-3 my-3'
+						style={{ position: 'absolute', right: 0 }}
+					>
+						<Pressable
+							android_ripple={{ color: 'rgba(255,125,125,0.3)' }}
+							className='items-center justify-center content-center px-2.5 py-2.5'
+							onPress={() => setIsLiked(prev => !prev)}
+						>
+							<Octicons
+								name={isLiked ? 'heart-fill' : 'heart'}
+								size={22}
+								color={Colors.CANCEL}
+							/>
+						</Pressable>
+					</View>
+				</View>
 				<View className='flex-1 justify-center flex-row '>
 					<View className='flex-row w-80 items-center px-2'>
 						<Image source={{ uri: logo }} className='w-16 h-16' />
@@ -51,10 +91,6 @@ const RestourantCard: FC<ICard> = ({
 							</View>
 							<View className='w-56 ml-3 flex-row items-center'>
 								<Rating total={4.5} count={214} />
-								<View className='flex-row'>
-									<Distance />
-									<Time />
-								</View>
 							</View>
 						</View>
 
