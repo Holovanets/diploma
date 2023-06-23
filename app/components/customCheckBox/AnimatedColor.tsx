@@ -42,7 +42,10 @@ const AnimatedColor: FC<AnimatedColorProps> = memo(props => {
 			const fill = interpolateColor(
 				progress.value,
 				[0, 1],
-				[processColor('rgba(0,0,0,0)'), processColor(Colors.PRIMARY_RED)],
+				[
+					processColor('rgba(255,255,255,.4)'),
+					processColor(Colors.PRIMARY_RED)
+				],
 				'RGB'
 			)
 			const stroke = interpolateColor(
@@ -53,7 +56,7 @@ const AnimatedColor: FC<AnimatedColorProps> = memo(props => {
 			)
 
 			return {
-				stroke,
+				// stroke,
 				fill
 			}
 		},
@@ -63,11 +66,12 @@ const AnimatedColor: FC<AnimatedColorProps> = memo(props => {
 				if (Object.keys(props).includes('fill')) {
 					props.fill = { type: 0, payload: processColor(props.fill) }
 				}
-				if (Object.keys(props).includes('stroke')) {
-					props.stroke = { type: 0, payload: processColor(props.stroke) }
-				}
+				// if (Object.keys(props).includes('stroke')) {
+				// 	props.stroke = { type: 0, payload: processColor(props.stroke) }
+				// }
 			},
-			['fill', 'stroke']
+			// ['fill', 'stroke']
+			['fill']
 		)
 	)
 
@@ -75,7 +79,7 @@ const AnimatedColor: FC<AnimatedColorProps> = memo(props => {
 		<AnimationColor
 			animatedProps={ellipseAnimatedProps}
 			d='M27 2H22C10.9543 2 2 10.9543 2 22V27C2 38.0457 10.9543 47 22 47H27C38.0457 47 47 38.0457 47 27V22C47 10.9543 38.0457 2 27 2Z'
-			strokeWidth={4}
+			// strokeWidth={4}
 		/>
 	)
 })

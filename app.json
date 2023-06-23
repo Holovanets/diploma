@@ -2,7 +2,7 @@
 	"expo": {
 		"name": "CityFood",
 		"slug": "cityfood",
-		"version": "1.0.0",
+		"version": "1.1.0",
 		"orientation": "portrait",
 		"icon": "./assets/main.png",
 		"userInterfaceStyle": "dark",
@@ -11,14 +11,13 @@
 			"resizeMode": "contain",
 			"backgroundColor": "#C1272D"
 		},
-
 		"androidNavigationBar": {
 			"barStyle": "dark-content",
 			"backgroundColor": "#0E1110"
 		},
-
 		"updates": {
-			"fallbackToCacheTimeout": 0
+			"fallbackToCacheTimeout": 0,
+			"url": "https://u.expo.dev/bb248198-9da9-44ee-9237-09e3947ccdb0"
 		},
 		"assetBundlePatterns": ["**/*"],
 		"ios": {
@@ -28,7 +27,6 @@
 			"softwareKeyboardLayoutMode": "pan",
 			"adaptiveIcon": {
 				"foregroundImage": "./assets/main.png",
-
 				"backgroundColor": "#C1272D"
 			},
 			"package": "com.golovanets.cityfood"
@@ -40,6 +38,9 @@
 			"eas": {
 				"projectId": "bb248198-9da9-44ee-9237-09e3947ccdb0"
 			}
+		},
+		"runtimeVersion": {
+			"policy": "sdkVersion"
 		}
 	}
 }

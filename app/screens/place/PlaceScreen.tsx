@@ -81,6 +81,26 @@ const PlaceScreen: FC<IPlace> = ({
 		})
 		setIsOnline(true)
 	}, [])
+	useEffect(() => {
+		RestourantService.isRestikLiked(id).then(response => {
+			if (response?.status) {
+				setIsLoved(response.data.liked)
+			} else {
+				console.log('cannot set like')
+			}
+		})
+	}, [isLoved])
+
+	const toggleLike = async () => {
+		RestourantService.toggleRestikLike(id).then(response => {
+			if (response?.status) {
+				setIsLoved(prev => !prev)
+				console.log('лайк тогл id: ', id)
+			} else {
+				console.log('like dont toggle')
+			}
+		})
+	}
 
 	function renderCategoryBar() {
 		return (
@@ -172,10 +192,7 @@ const PlaceScreen: FC<IPlace> = ({
 				<View className='justify-right flex-row'>
 					<BoxLocButton callback={() => console.log('lol')} />
 					<BoxSearchButton callback={() => console.log('lol')} />
-					<BoxLikeButton
-						callback={() => setIsLoved(prev => !prev)}
-						active={isLoved}
-					/>
+					<BoxLikeButton callback={() => toggleLike()} active={isLoved} />
 				</View>
 			</View>
 		)
@@ -358,7 +375,6 @@ const PlaceScreen: FC<IPlace> = ({
 			</Animated.ScrollView>
 			{renderHeaderCategories()}
 			{renderHeaderBar()}
-			<StatusBar hidden />
 		</ImageBackground>
 	)
 }

@@ -1,19 +1,19 @@
 const WELCOME_CONTENT: IWelcomeContent[] = [
 	{
 		image: 'WELCOME_PIC_1',
-		title: 'Find Your Favorite Place',
-		content: 'lorem ipsum dolorem'
+		title: 'Роби передзамовлення',
+		content: 'Ти можеш зробии передзамовлення та прийти на все готове :)'
 	},
 	{
 		image: 'WELCOME_PIC_2',
-		title: 'Найди любимое место здесь',
+		title: 'Знаходь своє улюблене тут',
 		content:
-			'Привет! Ты можешь найти любое место или блюдо поблизости. Наслаждаться!'
+			'Ти можеш знайти свій улюблений заклад прямо у додатку. Насолоджуйся!'
 	},
 	{
 		image: 'WELCOME_PIC_3',
-		title: 'Хочешь остаться дома?',
-		content: 'Ты можешь оформить доставку прямо из City.Food. Wow!'
+		title: 'Бажаєш залишитись вдома?',
+		content: 'Оформлюй доставку куди завгодно прямо із City.Food.'
 	}
 ]
 export default { WELCOME_CONTENT }

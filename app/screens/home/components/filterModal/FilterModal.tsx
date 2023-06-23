@@ -48,6 +48,10 @@ const FilterModal: FC<IModal> = ({ reference }) => {
 				borderTopLeftRadius: 12,
 				borderTopRightRadius: 12
 			}}
+			backgroundStyle={{
+				borderTopLeftRadius: 12,
+				borderTopRightRadius: 12
+			}}
 			handleIndicatorStyle={{ backgroundColor: Colors.PRIMARY_RED }}
 			index={0}
 			ref={reference}

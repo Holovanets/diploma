@@ -14,8 +14,8 @@ const CustomBackground: React.FC<BottomSheetBackgroundProps> = ({
 }) => {
 	//#region styles
 	const containerAnimatedStyle = useAnimatedStyle(() => ({
-		borderTopRightRadius: 12,
-		borderTopLeftRadius: 12,
+		// borderTopRightRadius: 36,
+		// borderTopLeftRadius: 36,
 		// @ts-ignore
 		backgroundColor: interpolateColor(
 			animatedIndex.value,

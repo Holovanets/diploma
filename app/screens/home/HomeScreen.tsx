@@ -12,13 +12,14 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 import {
+	AdresModal,
 	CategoryButton,
 	FilterModal,
 	RestourantCard,
 	SearchBar,
 	TopBar
 } from './components'
-import { categories } from './testData'
+import { categories, restourantsPreLoad } from './testData'
 import { Separator } from '@/components'
 import { RestourantService } from '@/services'
 import { ScreenProps } from '@/types'
@@ -27,6 +28,8 @@ import { Display } from '@/utils'
 const HomeScreen: FC<ScreenProps> = ({ navigation }) => {
 	const [notifNum, setNotifNum] = useState(0)
 	const [restourants, setRestourants] = useState<any>(null)
+	const [nearestRestourants, setNearestRestourants] =
+		useState<any>(restourantsPreLoad)
 	const [selectedCategory, setSelectedCategory] = useState(categories[0].name)
 
 	const filterModalRef = useRef<BottomSheetModal>(null)
@@ -50,6 +53,14 @@ const HomeScreen: FC<ScreenProps> = ({ navigation }) => {
 					// console.log(response.message)
 				}
 			})
+			RestourantService.getNearestRestourants().then(response => {
+				if (response?.status) {
+					setNearestRestourants(response.data)
+					console.log('nearest setted')
+				} else {
+					console.log('cannot fetch nearest')
+				}
+			})
 		})
 
 		setNotifNum(12)
@@ -69,7 +80,11 @@ const HomeScreen: FC<ScreenProps> = ({ navigation }) => {
 					showsVerticalScrollIndicator={false}
 				>
 					<View className='px-7'>
-						<TopBar {...{ navigation }} notificationCount={notifNum} />
+						<TopBar
+							callback={openDeliveryChooseModal}
+							{...{ navigation }}
+							notificationCount={notifNum}
+						/>
 						<SearchBar openFilter={openFilterModal} />
 					</View>
 					{/* Special */}
@@ -127,9 +142,23 @@ const HomeScreen: FC<ScreenProps> = ({ navigation }) => {
 							/>
 						))}
 					</ScrollView>
+					<View className='justify-center items-center mt-6'>
+						{nearestRestourants.map((item: any) => (
+							<>
+								<RestourantCard
+									navigate={(id: number, cover: string) =>
+										navigation.navigate('PlaceScreen', { id, cover })
+									}
+									{...item}
+									key={item.id}
+								/>
+								<View className='h-6' key={Math.random()}></View>
+							</>
+						))}
+					</View>
 					<View className='h-20'></View>
 					<FilterModal reference={filterModalRef} />
-					<FilterModal reference={deliveryChooseModalRef} />
+					<AdresModal reference={deliveryChooseModalRef} />
 				</ScrollView>
 			</SafeAreaView>
 		</ImageBackground>

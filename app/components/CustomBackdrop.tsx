@@ -1,5 +1,9 @@
-import { BottomSheetBackdropProps } from '@gorhom/bottom-sheet'
-import React, { useMemo } from 'react'
+import {
+	BottomSheetBackdropProps,
+	BottomSheetModal
+} from '@gorhom/bottom-sheet'
+import React, { RefObject, useMemo } from 'react'
+import { Pressable, TouchableOpacity } from 'react-native'
 import Animated, {
 	Extrapolate,
 	interpolate,
@@ -8,7 +12,11 @@ import Animated, {
 
 import { Colors } from '@/constants'
 
-const CustomBackdrop = ({ animatedIndex, style }: BottomSheetBackdropProps) => {
+interface IBackdrop extends BottomSheetBackdropProps {
+	reference?: RefObject<BottomSheetModal>
+}
+
+const CustomBackdrop = ({ animatedIndex, style, reference }: IBackdrop) => {
 	// animated variables
 	const containerAnimatedStyle = useAnimatedStyle(() => ({
 		opacity: interpolate(
@@ -31,7 +39,15 @@ const CustomBackdrop = ({ animatedIndex, style }: BottomSheetBackdropProps) => {
 		[style, containerAnimatedStyle]
 	)
 
-	return <Animated.View style={containerStyle} />
+	return (
+		<Animated.View style={containerStyle}>
+			<Pressable
+				onPress={() => reference?.current?.close()}
+				// onPress={() => console.log('Backdrop pressed')}
+				className='flex-1'
+			></Pressable>
+		</Animated.View>
+	)
 }
 
 export default CustomBackdrop
